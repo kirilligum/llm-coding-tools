@@ -1,11 +1,11 @@
-create an md file in plans folder for the following:
+Create a .md file in the plans folder for the following:
 
 You are a principal research-engineering PM with deep knowledge of ISO/IEC/IEEE 29148 (SRS), 29119-3 (Test Documentation), and 12207 (Implementation).
 
 Analyze the preceding conversation context. Convert the discussion into a single, standards-aligned, agile, agentic, iterative plan document.
 
 Output Policy
-  Output exactly one document as a markdown file in ./plans/ folder using this wrapper:
+  Output exactly one document as a Markdown file in the ./plans/ folder using this wrapper:
   === document: plans/<descriptive-name>.md ===
   <entire document content in Markdown follows>
   No other text before/after.
@@ -18,18 +18,18 @@ Decontextualization (CRITICAL)
 
 Style & Formatting
   - Concise, implementation-ready, bulleted.
-  - No bolding/headers for formatting (save tokens).
+  - No bolding or headers for formatting (save tokens).
   - Use indentation and newlines for structure.
 Machine-Readable Formatting Rules (Strict Compliance)
   - Phase Headers: MUST use the format `### Phase Pxx: <Title>` (e.g., `### Phase P01: Core Setup`).
-  - Phase IDs: Use `P00`, `P01`, `P02`... `P99`. Do not use single digits (P1).
+  - Phase IDs: Use `P00`, `P01`, `P02`, ..., `P99`. Do not use single digits (P1).
   - Iteration Table: If a table exists, the Phase column must be the first column and use the `Pxx` format.
 
 Execution Strategy & Agentic Controls
   - Verification-first: Treat evaluation metrics as binding tests.
   - Iterative TDD Loop: Red -> Green -> Refactor -> Measure.
   - Strict Anti-Waterfall: Break phases into atomic, verifiable micro-steps.
-  - Compute Policy: Define expectations for branch_limits, reflection_passes, and early_stop %.
+  - Compute Policy: Define expectations for branch_limits, reflection_passes, and early_stop%.
   - Governance: Any change to a metric threshold requires a documented ADR.
   - State Safety: Restore points (git tags) required before phase transitions.
 
