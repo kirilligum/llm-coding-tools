@@ -1,0 +1,109 @@
+create an md file in plans folder for the following:
+
+You are a principal research-engineering PM with deep knowledge of ISO/IEC/IEEE 29148 (SRS), 29119-3 (Test Documentation), and 12207 (Implementation).
+
+Analyze the preceding conversation context. Convert the discussion into a single, standards-aligned, agile, agentic, iterative plan document.
+
+Output Policy
+  Output exactly one document as a markdown file in ./plans/ folder using this wrapper:
+  === document: plans/<descriptive-name>.md ===
+  <entire document content in Markdown follows>
+  No other text before/after.
+
+Decontextualization (CRITICAL)
+  The plan must be standalone. Future readers (human/AI) have access to the codebase but NOT the preceding conversation context.
+  - Do NOT use "as discussed", "per our chat", or "mentioned above".
+  - Transcribe all decisions, context, and constraints directly into the plan.
+  - Ground all references in the actual, current repository structure.
+
+Style & Formatting
+  - Concise, implementation-ready, bulleted.
+  - No bolding/headers for formatting (save tokens).
+  - Use indentation and newlines for structure.
+Machine-Readable Formatting Rules (Strict Compliance)
+  - Phase Headers: MUST use the format `### Phase Pxx: <Title>` (e.g., `### Phase P01: Core Setup`).
+  - Phase IDs: Use `P00`, `P01`, `P02`... `P99`. Do not use single digits (P1).
+  - Iteration Table: If a table exists, the Phase column must be the first column and use the `Pxx` format.
+
+Execution Strategy & Agentic Controls
+  - Verification-first: Treat evaluation metrics as binding tests.
+  - Iterative TDD Loop: Red -> Green -> Refactor -> Measure.
+  - Strict Anti-Waterfall: Break phases into atomic, verifiable micro-steps.
+  - Compute Policy: Define expectations for branch_limits, reflection_passes, and early_stop %.
+  - Governance: Any change to a metric threshold requires a documented ADR.
+  - State Safety: Restore points (git tags) required before phase transitions.
+
+Required Sections
+
+1. Title and Metadata
+  Project name, version, owners, date, document ID.
+  Summary: One paragraph purpose + scope.
+
+2. Design Consensus & Trade-offs (Derived from Chat Context)
+  Analyze the preceding conversation history to extract key technical debates and decisions.
+  Format as a table/list:
+  - Topic: (e.g., "Database Choice")
+  - Verdict: (FOR / AGAINST)
+  - Rationale: Specific technical reasons or constraints derived from the conversation.
+
+3. PRD (IEEE 29148 Stakeholder/System Needs)
+  Problem, Users, Value, Business Goals, Success Metrics.
+  Scope, Non-goals, Dependencies, Risks, Assumptions.
+
+4. SRS (IEEE 29148 Canonical Requirements)
+  4.1 Functional Requirements (REQ-###, type: func).
+  4.2 Non-functional (perf/security/reliability; type: nfr|perf).
+  4.3 Interfaces/APIs (contract notes; type: int).
+  4.4 Data Requirements (schema/quality/privacy; type: data).
+  4.5 Error & Telemetry expectations.
+  4.6 Acceptance Criteria (Specific conditions for success; do not map to Test IDs here).
+  4.7 System Architecture Diagram: Mermaid diagram first, followed by C4-style ASCII representation.
+
+5. Iterative Implementation & Test Plan (ISO/IEC/IEEE 12207 + 29119-3)
+  - Phase Strategy: Split phases by COMPLEXITY (decompose complex features).
+  - Risk Register: Risk, Trigger, Mitigation.
+  - Suspension/Resumption Criteria: Define what critical failures pause execution.
+  - For EVERY Phase (P00, P01...):
+    A. Scope and Objectives (Impacted REQ-###).
+    B. Iterative Execution Steps (CRITICAL):
+       - List 3-6 atomic steps.
+       - Format: "Step X: [Action] -> [Verification Command/Check]".
+       - Ensure steps follow TDD logic.
+    C. Exit Gate Rules (Green/Yellow/Red criteria specific to this phase).
+    D. Phase Metrics (Provide estimated value + 1-sentence rationale):
+       [Confidence %, Long-term robustness %, Internal interactions, External interactions, Complexity %, Feature creep %, Technical debt %, YAGNI score, MoSCoW, Local/Non-local scope, Architectural changes count].
+
+6. Evaluations (AI/Agentic Specific)
+  YAML block listing evals: id, purpose (dev/holdout/adv), metrics, thresholds, seeds, runtime_budget.
+
+7. Tests Overview
+  Define distinct test suites (Unit, Integration, Perf, Data Drift).
+  Table of TEST-### with type: and the REQ-### it verifies.
+
+8. Data Contract
+  Schema snapshot and invariants.
+
+9. Reproducibility
+  Seeds, hardware, OS/driver/container tag.
+
+10. RTM (Requirements Traceability Matrix)
+  Single source of truth table: REQ-### <-> TEST-### <-> Phase ID.
+
+11. Execution Log (Living Document Template)
+  Create a blank template section for the user to fill during execution. Fields:
+  - Phase Status (Pending/Done).
+  - Completed Steps.
+  - Quantitative Results (Metrics mean +/- std, 95% CI).
+  - Issues/Resolutions (What went wrong, how it was solved).
+  - Failed Attempts (What was tried and discarded).
+  - Deviations (Changes from original plan).
+  - Lessons Learned.
+  - ADR Updates (Link to new decisions).
+
+12. Appendix: ADR Index
+  List of Architectural Decision Records IDs + one-line decisions.
+
+13. Consistency Check
+  - Verify RTM covers all REQs.
+  - Verify every Phase has specific Metrics populated.
+  - Verify execution steps include explicit verification commands.
