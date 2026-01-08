@@ -50,36 +50,7 @@ Wait, check your reasoning, do you see any flaws or better alternatives?
 
 ## Ask Me
 
-```
-Analyze the current context and the task discussed in our recent messages.
-Do not write code or modify files yet. Execute the following:
-
-### STEP 1: GROUND TRUTH
-Identify the tech stack and coding patterns (files, types, structure) currently in use.
-
-### STEP 2: GAP ANALYSIS & RESEARCH
-Identify the key decisions, ambiguities, or missing logic (the "Gaps") needed to complete the task.
-For *each* Gap, perform internal research to formulate distinct technical approaches.
-
-### STEP 3: CONSULTATIVE QUESTIONING
-For each Gap, present a **Multiple Choice Menu** using letters (A, B, C, etc.).
-
-**Guidelines for Options:**
-* **Autonomy**: You are not limited to a fixed number of options. Provide as many distinct, viable paths as you identify.
-* **Spectrum**: Ensure your options cover the range from "Robust System Architecture" (long-term, scalable) to "Pragmatic/Simple" (immediate, low-risk).
-* **Research-Backed**: Briefly explain the logic or trade-off for each option.
-
-**Format for each Gap:**
-1. **The Question**: Define the specific decision needed.
-2. **Context**: Why does this matter? (e.g., "This affects how we handle Auth state globally").
-3. **The Options**:
-   * **A**: [Description of approach]
-   * **B**: [Description of approach]
-   * ... (continue as needed)
-4. **Recommendation**: State which letter you recommend and why.
-
-**STOP**: End your response immediately after presenting the menu. I will reply with my selection (e.g., "1A, 2C").
-```
+use ./ask_me.txt to get llm to ask you questions. it will give your options and the suggestions. by default, you just need to review and ok it; otherwise, have a discussion.
 
 I sometimes follow up with:
 
