@@ -4,7 +4,7 @@
 
 ### Creating a Plan
 
-1. Have a conversation with an LLM, then use the `phase-plan-follow-upper.txt` prompt to create an `.md` plan file in the `plans` folder.
+1. Have a conversation with an LLM, then use the [`phase-plan-follow-upper.txt`](phase-plan-follow-upper.txt) prompt to create an `.md` plan file in the `plans` folder.
 
 2. Besides typical instructions that fix weaknesses of current LLMs and advocate for the best coding and architecture principles, the prompt uses IEEE standard references that have a lot of training data. We also break it into PRD, SRS, and phases sections. To control the quality of each section, we use metrics for high-quality code and common mistakes of LLMs (overengineering, duplication, etc.).
 
@@ -12,7 +12,7 @@
 
 ### Refining the Plan
 
-Starting with GPT-5.2, the `phase-plan-follow-upper.txt` prompt does a better job and is often enough on its own. However, LLMs typically don't produce very long outputs, so we run the `plan-phase-booster.fish` script to refine each section and phase. This refinement can take around 30-60 minutes on GPT-5.2 xhigh. High is enough though; I use xhigh mostly for the original plan.
+Starting with GPT-5.2, the [`phase-plan-follow-upper.txt`](phase-plan-follow-upper.txt) prompt does a better job and is often enough on its own. However, LLMs typically don't produce very long outputs, so we run the [`plan-phase-booster.fish`](plan-phase-booster.fish) script to refine each section and phase. This refinement can take around 30-60 minutes on GPT-5.2 xhigh. High is enough though; I use xhigh mostly for the original plan.
 
 ### Executing the Plan
 
@@ -50,7 +50,7 @@ Wait, check your reasoning, do you see any flaws or better alternatives?
 
 ## Ask Me
 
-use ./ask_me.txt to get llm to ask you questions. it will give your options and the suggestions. by default, you just need to review and ok it; otherwise, have a discussion.
+Use [`./ask_me.txt`](ask_me.txt) to get the LLM to ask you questions. It will give you options and suggestions. By default, you just need to review and approve it; otherwise, have a discussion.
 
 I sometimes follow up with:
 
