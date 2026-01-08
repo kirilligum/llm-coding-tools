@@ -1,0 +1,16 @@
+Review the code and aggressively simplify it.
+
+Targets:
+- Redundancy: duplicate/overlapping functionality, dead code, unused abstractions.
+- Overengineering: indirection/abstraction that doesn’t reduce duplication or enable clear reuse.
+- Guard rails: defensive checks, retries, fallbacks, flags, validation that don’t map to a real failure mode in this codebase.
+
+Rules:
+- Default to deleting complexity unless you can point to concrete evidence in the codebase that it’s needed (call sites, invariants, upstream validation, types, existing tests).
+- Don’t justify complexity with hypothetical scenarios. If you keep/add complexity, cite where the failure can occur in THIS code.
+- Prefer deletion/inline/flatten. Do not introduce new layers/abstractions.
+- Do not “cheat”: do not modify/disable tests, lint rules, or CI to accommodate changes.
+
+Output:
+- Ranked list of the top simplifications (largest complexity reduction first).
+- For each: file/function/symbol, what it does, why it’s unnecessary (with evidence), and the minimal diff/patch.
