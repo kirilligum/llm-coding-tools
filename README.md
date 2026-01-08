@@ -1,10 +1,10 @@
-# llm-coding-tools
+# LLM Coding Tools
 
 ## Planning
 
 ### Creating a Plan
 
-1. Have a conversation with an LLM, then use `phase-plan-follow-upper.txt` prompt to create an `.md` plan file in the `plans` folder.
+1. Have a conversation with an LLM, then use the `phase-plan-follow-upper.txt` prompt to create an `.md` plan file in the `plans` folder.
 
 2. Besides typical instructions that fix weaknesses of current LLMs and advocate for the best coding and architecture principles, the prompt uses IEEE standard references that have a lot of training data. We also break it into PRD, SRS, and phases sections. To control the quality of each section, we use metrics for high-quality code and common mistakes of LLMs (overengineering, duplication, etc.).
 
@@ -12,7 +12,7 @@
 
 ### Refining the Plan
 
-Starting with GPT-5.2, the `phase-plan-follow-upper.txt` prompt does a better job and is often enough on its own. However, LLM models typically don't produce very long outputs, so we run `plan-phase-booster.fish` script to refine each section and phase. This refinement can take around 30-60 minutes on GPT-5.2 xhigh. High is enough though; I use xhigh mostly for the original plan.
+Starting with GPT-5.2, the `phase-plan-follow-upper.txt` prompt does a better job and is often enough on its own. However, LLMs typically don't produce very long outputs, so we run the `plan-phase-booster.fish` script to refine each section and phase. This refinement can take around 30-60 minutes on GPT-5.2 xhigh. High is enough though; I use xhigh mostly for the original plan.
 
 ### Executing the Plan
 
@@ -32,23 +32,23 @@ After execution, I use:
 Check the plan. We don't want to overengineer things; we want one way of doing things, meaning no legacy and no fallbacks. Prefer direct approaches over adapters and safety for situations that are unlikely to happen. Prefer general code over minor performance gains because we want the codebase to be smaller.
 ```
 
-## Step-back
+## Step-Back Prompts
 
 ```
-step back, think about similar architectural patterns, system designs, industry standards. give an extensive technically detailed response with relevant examples
+Step back, think about similar architectural patterns, system designs, industry standards. Give an extensive technically detailed response with relevant examples.
 ```
 
 ```
-think creatively, do you see any other alternatives? if you would be building the project from scratch for a multi-billion dollar saas, how would you do things differently
+Think creatively, do you see any other alternatives? If you were building the project from scratch for a multi-billion dollar SaaS, how would you do things differently?
 ```
 
-## quick checks
+## Quick Checks
 
 ```
-wait, check your reasoning, do you see any flaws or better alternatives?
+Wait, check your reasoning, do you see any flaws or better alternatives?
 ```
 
-## ask me
+## Ask Me
 
 ```
 Analyze the current context and the task discussed in our recent messages.
@@ -81,7 +81,7 @@ For each Gap, present a **Multiple Choice Menu** using letters (A, B, C, etc.).
 **STOP**: End your response immediately after presenting the menu. I will reply with my selection (e.g., "1A, 2C").
 ```
 
-and i sometimes follow up with
+I sometimes follow up with:
 
 ```
 Analyze my answers above against the previous task and codebase context.
@@ -92,11 +92,10 @@ Analyze my answers above against the previous task and codebase context.
 **STOP**: Do not write code. Do not propose a blueprint yet. We are strictly in the discussion phase.
 ```
 
-## branching
+## Branching
 
-When llm gives me a feedback with a few points and i want to focus on one at a time,
+When the LLM gives me feedback with a few points and I want to focus on one at a time:
 
 ```
-this should be a separate discussions. make a folder discussions and inside create an md file that is self
-  contained and has all of the information to continue this discussion
+This should be a separate discussion. Make a folder called "discussions" and inside create an .md file that is self-contained and has all of the information to continue this discussion.
 ```
