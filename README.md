@@ -19,7 +19,11 @@ Starting with GPT-5.2, the [`phase-plan-follow-upper.txt`](phase-plan-follow-upp
 After the plan is done, I use:
 
 ```
-Implement the plan phase by phase and for each phase step by step. Do not stop until all phases are done and all tests are green; even if it takes a very long time, this is meant to be a long task. Don't do any shortcuts or hacks. We need reliable solutions. Do not change the purpose of the tests or fake passing. We need reliability.
+Implement the plan phase by phase and for each phase step by step. Do not
+stop until all phases are done and all tests are green; even if it takes a
+very long time, this is meant to be a long task. Don't do any shortcuts or
+hacks. We need reliable solutions. Do not change the purpose of the tests or
+fake passing. We need reliability.
 ```
 
 This starts a multi-hour job. You can replace "the plan" with the `.md` file of the plan. Note: LLM feedback on this prompt is that there is no discussion of what happens when things fail; I didn't find it to be a problem—models typically stop anyway.
@@ -29,17 +33,25 @@ This starts a multi-hour job. You can replace "the plan" with the `.md` file of 
 After execution, I use:
 
 ```
-Check the plan. We don't want to overengineer things; we want one way of doing things, meaning no legacy and no fallbacks. Prefer direct approaches over adapters and safety for situations that are unlikely to happen. Prefer general code over minor performance gains because we want the codebase to be smaller.
+Check the plan. We don't want to overengineer things; we want one way of
+doing things, meaning no legacy and no fallbacks. Prefer direct approaches
+over adapters and safety for situations that are unlikely to happen. Prefer
+general code over minor performance gains because we want the codebase to be
+smaller.
 ```
 
 ## Step-Back Prompts
 
 ```
-Step back, think about similar architectural patterns, system designs, industry standards. Give an extensive technically detailed response with relevant examples.
+Step back, think about similar architectural patterns, system designs,
+industry standards. Give an extensive technically detailed response with
+relevant examples.
 ```
 
 ```
-Think creatively, do you see any other alternatives? If you were building the project from scratch for a multi-billion dollar SaaS, how would you do things differently?
+Think creatively, do you see any other alternatives? If you were building the
+project from scratch for a multi-billion dollar SaaS, how would you do things
+differently?
 ```
 
 ## Quick Checks
@@ -57,10 +69,14 @@ I sometimes follow up with:
 ```
 Analyze my answers above against the previous task and codebase context.
 
-1. **Gap Check**: If these answers reveal NEW complexities, missing edge cases, or further ambiguities, you must ask follow-up questions now.
-2. **Success Condition**: If everything is now 100% clear and no further information is needed, state exactly: "Context fully synthesized. All gaps closed."
+1. **Gap Check**: If these answers reveal NEW complexities, missing edge
+cases, or further ambiguities, you must ask follow-up questions now.
+2. **Success Condition**: If everything is now 100% clear and no further
+information is needed, state exactly: "Context fully synthesized. All gaps
+closed."
 
-**STOP**: Do not write code. Do not propose a blueprint yet. We are strictly in the discussion phase.
+**STOP**: Do not write code. Do not propose a blueprint yet. We are strictly
+in the discussion phase.
 ```
 
 ## Branching
@@ -68,5 +84,7 @@ Analyze my answers above against the previous task and codebase context.
 When the LLM gives me feedback with a few points and I want to focus on one at a time:
 
 ```
-This should be a separate discussion. Make a folder called "discussions" and inside create an .md file that is self-contained and has all of the information to continue this discussion.
+This should be a separate discussion. Make a folder called "discussions" and
+inside create an .md file that is self-contained and has all of the
+information to continue this discussion.
 ```
