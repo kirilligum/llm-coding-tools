@@ -64,7 +64,13 @@ Wait, check your reasoning, do you see any flaws or better alternatives?
 
 Use [`./ask_me.txt`](ask_me.txt) to get the LLM to ask you questions. It will give you options and suggestions. By default, you just need to review and approve it; otherwise, have a discussion.
 
-Here I ask llm to give structure to the output as multiple answers with a recomendation. When I use this prompt, I care more about the speed of reviewing rather than highest accuracy; for the highest accuracy, just ask llm to list issues with explanations and then dive into them in separate sessions.
+Here I ask the LLM to structure the output as multiple options with a
+recommendation. When I use this prompt, I care more about review speed than
+highest accuracy; for highest accuracy, ask the LLM to list issues with
+explanations, then dive into them in separate sessions. After this prompt,
+instead of writing explanatory text, you can just say you `I agree with your 
+recommendations` or reply with `1A, 2A, 3B, 4A, more details
+about 5`.
 
 I sometimes follow up with:
 
