@@ -1,5 +1,15 @@
 # LLM Coding Tools
 
+This document is not a course or a full-on guide. It's for people who already
+vibe-code and aren't happy with current tools, and who want more cutting-edge
+approaches. All prompts are based on recent peer-reviewed academic papers and
+have been tested for a few months. There was no A/B testing on something like
+SWE-bench. I used these prompts to create an orchestrator that's competitive
+with Temporal, but works as a Firebase library, and for a synthetic-data
+generation pipeline that uses a knowledge graph. SWE-bench is fairly saturated
+with models achieving high scores; many use cases for the prompts in this repo
+still can't be done by models or typical wrappers alone.
+
 ## Planning
 
 ### Creating a Plan
