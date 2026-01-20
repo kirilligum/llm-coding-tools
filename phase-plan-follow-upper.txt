@@ -29,9 +29,15 @@ Execution Strategy & Agentic Controls
   - Verification-first: Treat evaluation metrics as binding tests.
   - Iterative TDD Loop: Red -> Green -> Refactor -> Measure.
   - Strict Anti-Waterfall: Break phases into atomic, verifiable micro-steps.
+  - TDD Enforcement (NON-NEGOTIABLE):
+    - No phase may introduce implementation steps before a failing test exists for impacted REQs.
+    - Every TEST-### must be fully specified with file path, exact command, and pass criteria.
+    - Phase steps must explicitly show RED proof (expected fail) and GREEN proof (expected pass) using the same command.
+    - Tests must be repo-grounded: only use existing runners/commands, or add a phase step to create/update them.
   - Compute Policy: Define expectations for branch_limits, reflection_passes, and early_stop%.
   - Governance: Any change to a metric threshold requires a documented ADR.
   - State Safety: Restore points (git tags) required before phase transitions.
+  - Anti-Handwaving Rule: Any TEST-### without an executable command + file path is invalid output.
 
 Required Sections
 
@@ -65,10 +71,14 @@ Required Sections
   - Suspension/Resumption Criteria: Define what critical failures pause execution.
   - For EVERY Phase (P00, P01...):
     A. Scope and Objectives (Impacted REQ-###).
-    B. Iterative Execution Steps (CRITICAL):
-       - List 3-6 atomic steps.
-       - Format: "Step X: [Action] -> [Verification Command/Check]".
-       - Ensure steps follow TDD logic.
+    B. Iterative Execution Steps (CRITICAL, TDD-BINDING):
+       - Each phase MUST include at least one explicit RED -> GREEN loop.
+       - Format each step as:
+         - Step X (RED): [Create/update TEST-### in <path> for REQ-###] -> [run <exact command>] -> expected: FAIL (state why)
+         - Step Y (GREEN): [Implement minimal code change] -> [run same command] -> expected: PASS
+         - Step Z (REFACTOR): [Refactor/remove duplication] -> [run suite command(s)] -> expected: PASS
+         - Step W (MEASURE): [run eval/perf] -> [run <exact command>] -> expected: thresholds met
+       - Every verification command line must reference at least one TEST-### or eval id.
     C. Exit Gate Rules (Green/Yellow/Red criteria specific to this phase).
     D. Phase Metrics (Provide estimated value + 1-sentence rationale):
        [Confidence %, Long-term robustness %, Internal interactions, External interactions, Complexity %, Feature creep %, Technical debt %, YAGNI score, MoSCoW, Local/Non-local scope, Architectural changes count].
@@ -76,9 +86,32 @@ Required Sections
 6. Evaluations (AI/Agentic Specific)
   YAML block listing evals: id, purpose (dev/holdout/adv), metrics, thresholds, seeds, runtime_budget.
 
-7. Tests Overview
-  Define distinct test suites (Unit, Integration, Perf, Data Drift).
-  Table of TEST-### with type: and the REQ-### it verifies.
+7. Tests (ISO/IEC/IEEE 29119-3)
+  7.1 Test Inventory (Repo-Grounded)
+    - Enumerate actual test frameworks/runners found in the repo.
+    - List exact commands as defined in package.json/scripts (or scripts/ directory).
+    - Provide file globs/locations where each test type lives.
+    - No invented commands. If a command doesn’t exist, add a phase step to create it and then reference it.
+  7.2 Test Suites Overview
+    - Define suites (Unit/Integration/E2E/Perf/Data Drift/Static).
+    - For each suite: purpose, runner, command, runtime budget, and when it runs (pre-commit/CI/nightly).
+  7.3 Test Definitions (MANDATORY, NO PLACEHOLDERS)
+    - For EVERY TEST-### referenced anywhere in the document (including RTM), provide a concrete definition with:
+      - id: TEST-###
+      - name: short unique name
+      - type: unit/integration/e2e/perf/static
+      - verifies: REQ-### list
+      - location: repo-relative path(s) to the test file(s) (existing or “to be created”)
+      - command: exact shell command to run only this test (or the smallest runnable scope)
+      - fixtures/mocks/data: what is required and where it lives
+      - deterministic controls: seeds/timeouts/environment variables
+      - pass_criteria: explicit assertions or thresholds
+      - expected_runtime: in seconds/minutes
+    - Traceability Tag Requirement: Every test file created/modified must include a grep-able tag comment `// TEST-###` (or equivalent for the language/framework) so RTM remains auditable.
+    - Forbidden in this section: “TBD”, “manual verify”, “Playwright check…”, “run tests”, “ensure”.
+  7.4 Manual Checks (Optional)
+    - If manual verification is needed, define as CHECK-### with a clear human procedure.
+    - CHECK-### entries must not appear in RTM.
 
 8. Data Contract
   Schema snapshot and invariants.
@@ -87,7 +120,8 @@ Required Sections
   Seeds, hardware, OS/driver/container tag.
 
 10. RTM (Requirements Traceability Matrix)
-  Single source of truth table: REQ-### <-> TEST-### <-> Phase ID.
+  Table columns MUST be: Phase | REQ-### | TEST-### | Test Path | Command.
+  Every REQ must map to at least one TEST with a concrete path+command.
 
 11. Execution Log (Living Document Template)
   Create a blank template section for the user to fill during execution. Fields:
