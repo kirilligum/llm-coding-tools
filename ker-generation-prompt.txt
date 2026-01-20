@@ -1,0 +1,191 @@
+You are operating inside a repo via Codex CLI. Your task is to turn the debugging session in THIS conversation into a reusable knowledge artifact and save it as a Markdown file in ./ker/.
+
+GOAL
+Create a single Markdown document in ./ker/ that contains BOTH:
+  1) a Problem Record (conceptual guidance: symptoms, hypotheses, diagnostics, mental models)
+  2) a Known Error Record (KER) (what was learned, decisions made, workaround, permanent fix, verification, scope)
+
+The document must be grep-friendly, durable, and optimized to help engineers facing similar issues reason their way to a fix.
+
+IMPORTANT BEHAVIOR
+- Use the previous conversation messages as your primary source of truth.
+- If key details are missing or vague, actively gather them by:
+    * inspecting logs referenced or available in the repo
+    * running lightweight diagnostics
+    * inspecting relevant source code, configuration, or infrastructure files
+- Prefer read-only or low-risk commands.
+- Do NOT invent facts. If something is unknown, write "Unknown" and add a "How to confirm" note.
+- Keep the KER conceptual and reusable; do not dump the full transcript.
+
+------------------------------------------------------------
+STEP 1 — COLLECT INFORMATION AND EVIDENCE
+------------------------------------------------------------
+
+From the conversation AND the repo, extract or infer:
+
+A) Failure context
+- What command, workflow, or action failed
+- What the user was trying to achieve (intent, not just the command)
+- Whether this occurred in local dev, CI, container, remote service, etc.
+
+B) Error signals
+- Exact error messages or stack traces (best 3–10 lines)
+- Behavioral symptoms (hangs, silent failure, wrong output, partial success)
+- Whether the issue was deterministic or intermittent
+
+C) Code and infrastructure surface area
+- Source code files or directories involved
+- Configuration files involved
+- Services or processes running or expected to be running
+- External dependencies or services interacted with
+- Boundaries crossed (CLI → runtime → service → network → filesystem)
+
+D) Diagnostics and investigation
+- What was tried and did NOT work (important)
+- Observations that narrowed the search space
+- Diagnostic commands run (or worth running now)
+- Relevant logs (paths and short excerpts)
+
+E) Resolution
+- What ultimately fixed or mitigated the issue
+- Whether it was a workaround or a permanent fix
+- What changed (code, config, environment, assumptions)
+
+------------------------------------------------------------
+STEP 2 — FILE NAMING
+------------------------------------------------------------
+
+Use a descriptive, keyword-based, grep-friendly filename.
+
+Filename format:
+  ./ker/YYYYMMDD-primary-symptom-root-cause-or-surface.md
+
+Rules:
+- lowercase
+- hyphen-separated
+- avoid generic words like bug, issue, problem
+- optimize for long-term search
+
+Examples:
+  ./ker/20260120-cli-hangs-env-var-shadowing.md
+  ./ker/20260203-test-fails-missing-service-startup.md
+  ./ker/20260311-build-error-config-ordering.md
+
+------------------------------------------------------------
+STEP 3 — WRITE THE DOCUMENT
+------------------------------------------------------------
+
+Write the file content using the structure below.
+
+----- BEGIN DOCUMENT CONTENT -----
+
+Known Error Record: <concise descriptive title>
+
+KER slug: YYYYMMDD-primary-symptom-root-cause
+Git reference: <commit hash where fix was applied or issue observed>
+Applies to (scope): <environment/setup; if unknown say so + how to confirm>
+Tags: <short search keywords>
+Anomaly classification (IEEE 1044–inspired, lightweight):
+  - anomaly type: failure | defect | config | dependency | environment | integration | other
+  - reproducibility: always | intermittent | unknown
+  - impact: low | medium | high
+  - likely cause category: config | env | dependency | code | ordering | permissions | tooling | other
+
+Trigger patterns (for fast matching)
+- "<exact error substring>"
+- "<another key message>"
+- <behavioral pattern indicating this issue>
+
+Problem Record (conceptual guidance)
+
+Symptoms
+- <what the engineer sees>
+- <what fails or behaves incorrectly>
+- <where in the workflow it breaks>
+
+Likely causes (ranked mental model)
+1) <cause + why it fits>
+2) <alternate cause + distinguishing signal>
+3) <less likely cause + when to consider>
+
+Diagnostic decision path
+1) Check: <what to check>
+   How: <command, inspection, or observation>
+   If true: <what it means>
+   Next step: <what to do next>
+
+2) Check: <next most useful check>
+   How: <...>
+   If true: <...>
+   Next step: <...>
+
+Evidence from this incident
+- key error excerpt:
+  <paste short excerpt>
+- logs / files involved: <paths>
+- code / config areas involved: <files or directories>
+- what did NOT work:
+  <attempt> -> <result>
+
+Decisions and tradeoffs
+This section captures WHY choices were made, including rejected options.
+
+Options considered
+- option: <short name>
+  description: <what this option would do>
+  pros: <why it was attractive>
+  cons / risks: <downsides or unknowns>
+  decision: accepted | rejected | deferred
+  rationale: <why this decision was made>
+
+- option: <short name>
+  description: <...>
+  pros: <...>
+  cons / risks: <...>
+  decision: <...>
+  rationale: <...>
+
+Key constraints influencing decisions
+- <time pressure, safety, reversibility, confidence, scope, risk, etc.>
+
+Non-obvious context
+- <institutional knowledge, past incidents, hidden behavior>
+
+Workarounds
+- <temporary mitigation, if any>
+- if none known, say so
+
+Known Error Record (what actually worked)
+
+Root cause (best current understanding)
+- <concise explanation>
+- note uncertainty explicitly if any
+
+Permanent fix
+1) <step>
+2) <step>
+3) <step>
+(include files or assumptions changed)
+
+Verification
+How to confirm the fix:
+  <command or action>
+Expected result:
+  <what success looks like>
+
+Prevention / guardrails
+- <small change or check to prevent recurrence>
+- <what to watch for next time>
+
+----- END DOCUMENT CONTENT -----
+
+------------------------------------------------------------
+STEP 4 — FINAL OUTPUT
+------------------------------------------------------------
+
+After writing the file:
+- Print the final path: ./ker/YYYYMMDD-....md
+- Print the first ~20 lines as a preview
+- List any diagnostics, files, or logs you inspected to produce it
+
+Now proceed: gather missing info if needed, then create and write the KER document.
