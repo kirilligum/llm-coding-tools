@@ -78,7 +78,7 @@ Here I ask the LLM to structure the output as multiple options with a
 recommendation. When I use this prompt, I care more about review speed than
 highest accuracy; for highest accuracy, ask the LLM to list issues with
 explanations, then dive into them in separate sessions. After this prompt,
-instead of writing explanatory text, you can just say you `I agree with your 
+instead of writing explanatory text, you can just say `I agree with your
 recommendations` or reply with `1A, 2A, 3B, 4A, more details
 about 5`.
 
@@ -96,6 +96,14 @@ closed."
 **STOP**: Do not write code. Do not propose a blueprint yet. We are strictly
 in the discussion phase.
 ```
+
+## KER Generation
+
+After a long session with an LLM resolving a bug, if you want to keep a note
+of the symptoms and the solution for future reference, use
+[`./ker-generation-prompt.txt`](ker-generation-prompt.txt) to turn a debugging
+session into a reusable Known Error Record (KER) plus a Problem Record, saved
+under `./ker/` with a grep-friendly filename.
 
 ## Branching
 
