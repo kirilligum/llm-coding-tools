@@ -26,7 +26,7 @@ Starting with GPT-5.2, the [`phase-plan-follow-upper.txt`](phase-plan-follow-upp
 
 ### Executing the Plan
 
-After the plan is done, I use:
+After the plan is ready, I use:
 
 ```
 Implement the plan phase by phase and for each phase step by step. Do not
