@@ -110,7 +110,7 @@ under `./ker/` with a grep-friendly filename.
 When the LLM gives me feedback with a few points and I want to focus on one at a time:
 
 ```
-This should be a separate discussion. Make a folder called "discussions" and
-inside create an .md file that is self-contained and has all of the
+This should be a separate discussion. Inside a folder "./discussions/"
+create an .md file that is self-contained and has all of the
 information to continue this discussion.
 ```
