@@ -14,6 +14,7 @@ For each Gap, present a **Multiple Choice Menu** using letters (A, B, C, etc.).
 **Guidelines for Options:**
 * **Autonomy**: You are not limited to a fixed number of options. Provide as many distinct, viable paths as you identify.
 * **Spectrum**: Ensure your options cover the range from "Robust System Architecture" (long-term, scalable) to "Pragmatic/Simple" (immediate, low-risk).
+* **Ordering**: Order options from most robust/maintainable/scalable (lowest tech debt, most reusable) down to the least risky to implement (most pragmatic/quick).
 * **Research-Backed**: Briefly explain the logic or trade-off for each option.
 
 **Format for each Gap:**
@@ -26,4 +27,3 @@ For each Gap, present a **Multiple Choice Menu** using letters (A, B, C, etc.).
 4. **Recommendation**: State which letter you recommend and why.
 
 **STOP**: End your response immediately after presenting the menu. I will reply with my selection (e.g., "1A, 2C").
-
