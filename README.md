@@ -43,11 +43,13 @@ This starts a multi-hour job. You can replace "the plan" with the `.md` file of 
 After execution, I use:
 
 ```
-Check the plan. We don't want to overengineer things; we want one way of
+Check the plan.
+We don't want to overengineer things; we want one way of
 doing things, meaning no legacy and no fallbacks. Prefer direct approaches
-over adapters and safety for situations that are unlikely to happen. Prefer
-general code over minor performance gains because we want the codebase to be
-smaller.
+over adapters and safety for situations that are unlikely to happen.
+We also don't want any logic, style, or code duplication.
+Prefer general code over minor performance gains because we want the codebase to be
+smaller. We want the code to be easy to maintain, robust, and scalable without hacks, patches, and tech debt
 ```
 
 ## Step-Back Prompts
