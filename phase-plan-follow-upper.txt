@@ -1,143 +1,196 @@
-Create a .md file in the plans folder for the following:
+Create exactly one Markdown plan file in ./plans for the work described by the preceding conversation.
 
-You are a principal research-engineering PM with deep knowledge of ISO/IEC/IEEE 29148 (SRS), 29119-3 (Test Documentation), and 12207 (Implementation).
+Role:
+You are a principal research-engineering PM with deep knowledge of ISO/IEC/IEEE 29148 requirements/SRS, ISO/IEC/IEEE 29119-3 test documentation, and ISO/IEC/IEEE 12207 software implementation/life-cycle processes.
 
-Analyze the preceding conversation context. Convert the discussion into a single, standards-aligned, agile, agentic, iterative plan document.
+Output policy:
+Return only this wrapper and document body. No other text.
 
-Output Policy
-  Output exactly one document as a Markdown file in the ./plans/ folder using this wrapper:
-  === document: plans/<descriptive-name>.md ===
-  <entire document content in Markdown follows>
-  No other text before/after.
+=== document: plans/<descriptive-name>.md ===
+<Markdown document content>
 
-Decontextualization (CRITICAL)
-  The plan must be standalone. Future readers (human/AI) have access to the codebase but NOT the preceding conversation context.
-  - Do NOT use "as discussed", "per our chat", or "mentioned above".
-  - Transcribe all decisions, context, and constraints directly into the plan.
-  - Ground all references in the actual, current repository structure.
+Core requirements:
+- The plan must be standalone. Future readers have the repository, but not the conversation.
+- Do not write “as discussed,” “per our chat,” or similar references.
+- Include all decisions, context, constraints, trade-offs, assumptions, and scope directly in the plan.
+- Ground all technical claims, file paths, commands, tests, APIs, and architecture references in the current repository.
+- Do not invent commands. Use existing package.json scripts, Makefile targets, scripts/, CI config, or add a phase step to create missing commands before using them.
+- Use concise, implementation-ready bullets.
+- Use plain Markdown headings only where required; avoid decorative formatting.
 
-Style & Formatting
-  - Concise, implementation-ready, bulleted.
-  - No bolding or headers for formatting (save tokens).
-  - Use indentation and newlines for structure.
-Machine-Readable Formatting Rules (Strict Compliance)
-  - Phase Headers: MUST use the format `### Phase Pxx: <Title>` (e.g., `### Phase P01: Core Setup`).
-  - Phase IDs: Use `P00`, `P01`, `P02`, ..., `P99`. Do not use single digits (P1).
-  - Iteration Table: If a table exists, the Phase column must be the first column and use the `Pxx` format.
+Machine-readable rules:
+- Phase headers must be exactly: `### Phase Pxx: <Title>`.
+- Phase IDs must be `P00`, `P01`, `P02`, …, `P99`.
+- If any table includes phases, the Phase column must be first and use `Pxx`.
+- Requirements use `REQ-###`.
+- Tests use `TEST-###`.
+- Evaluations use `EVAL-###`.
+- Manual checks, if any, use `CHECK-###` and must not appear in the RTM.
 
-Execution Strategy & Agentic Controls
-  - Verification-first: Treat evaluation metrics as binding tests.
-  - Iterative TDD Loop: Red -> Green -> Refactor -> Measure.
-  - Strict Anti-Waterfall: Break phases into atomic, verifiable micro-steps.
-  - TDD Enforcement (NON-NEGOTIABLE):
-    - No phase may introduce implementation steps before a failing test exists for impacted REQs.
-    - Every TEST-### must be fully specified with file path, exact command, and pass criteria.
-    - Phase steps must explicitly show RED proof (expected fail) and GREEN proof (expected pass) using the same command.
-    - Tests must be repo-grounded: only use existing runners/commands, or add a phase step to create/update them.
-  - Compute Policy: Define expectations for branch_limits, reflection_passes, and early_stop%.
-  - Governance: Any change to a metric threshold requires a documented ADR.
-  - State Safety: Restore points (git tags) required before phase transitions.
-  - Anti-Handwaving Rule: Any TEST-### without an executable command + file path is invalid output.
+TDD and verification contract:
+- Verification-first: metrics, tests, and evals are binding acceptance controls.
+- Every phase must include at least one Red -> Green -> Refactor -> Measure loop.
+- No implementation step may appear before a failing test exists for the impacted REQ(s).
+- RED and GREEN must run the same command for the same TEST-###.
+- Every TEST-### must be concrete: file path, exact command, fixtures/data, deterministic controls, pass criteria, expected runtime.
+- Every created or modified test file must include a grep-able traceability tag comment such as `// TEST-###`, or the language/framework equivalent.
+- No placeholders: forbidden terms include TBD, manual verify, run tests, ensure, check later, or unspecified Playwright/unit/perf checks.
+- Any TEST-### without executable command, repo-relative path, and pass criteria is invalid.
+- Any metric threshold change requires an ADR.
+- Add git restore points/tags before phase transitions.
+- Define compute controls: branch_limits, reflection_passes, and early_stop%.
 
-Required Sections
+Required document sections:
 
-1. Title and Metadata
-  Project name, version, owners, date, document ID.
-  Summary: One paragraph purpose + scope.
+1. Title and metadata
+- Project name
+- Version
+- Owners
+- Date
+- Document ID
+- One-paragraph summary of purpose and scope
 
-2. Design Consensus & Trade-offs (Derived from Chat Context)
-  Analyze the preceding conversation history to extract key technical debates and decisions.
-  Format as a table/list:
-  - Topic: (e.g., "Database Choice")
-  - Verdict: (FOR / AGAINST)
-  - Rationale: Specific technical reasons or constraints derived from the conversation.
+2. Design consensus and trade-offs
+Extract technical debates and decisions from the conversation.
+For each:
+- Topic
+- Verdict: FOR / AGAINST / DECISION
+- Rationale grounded in repository/context constraints
 
-3. PRD (IEEE 29148 Stakeholder/System Needs)
-  Problem, Users, Value, Business Goals, Success Metrics.
-  Scope, Non-goals, Dependencies, Risks, Assumptions.
+3. PRD / stakeholder and system needs
+- Problem
+- Users
+- Value
+- Business goals
+- Success metrics
+- Scope
+- Non-goals
+- Dependencies
+- Risks
+- Assumptions
 
-4. SRS (IEEE 29148 Canonical Requirements)
-  4.1 Functional Requirements (REQ-###, type: func).
-  4.2 Non-functional (perf/security/reliability; type: nfr|perf).
-  4.3 Interfaces/APIs (contract notes; type: int).
-  4.4 Data Requirements (schema/quality/privacy; type: data).
-  4.5 Error & Telemetry expectations.
-  4.6 Acceptance Criteria (Specific conditions for success; do not map to Test IDs here).
-  4.7 System Architecture Diagram: Mermaid diagram first, followed by C4-style ASCII representation.
+4. SRS / canonical requirements
+- Functional requirements: `REQ-###`, type `func`
+- Non-functional requirements: type `nfr`, `perf`, `security`, or `reliability`
+- Interface/API requirements: type `int`
+- Data requirements: type `data`
+- Error handling and telemetry expectations
+- Acceptance criteria at requirement level only; do not map to TEST IDs here
+- Architecture diagram:
+  - Mermaid diagram first
+  - C4-style ASCII representation second
 
-5. Iterative Implementation & Test Plan (ISO/IEC/IEEE 12207 + 29119-3)
-  - Phase Strategy: Split phases by COMPLEXITY (decompose complex features).
-  - Risk Register: Risk, Trigger, Mitigation.
-  - Suspension/Resumption Criteria: Define what critical failures pause execution.
-  - For EVERY Phase (P00, P01...):
-    A. Scope and Objectives (Impacted REQ-###).
-    B. Iterative Execution Steps (CRITICAL, TDD-BINDING):
-       - Each phase MUST include at least one explicit RED -> GREEN loop.
-       - Format each step as:
-         - Step X (RED): [Create/update TEST-### in <path> for REQ-###] -> [run <exact command>] -> expected: FAIL (state why)
-         - Step Y (GREEN): [Implement minimal code change] -> [run same command] -> expected: PASS
-         - Step Z (REFACTOR): [Refactor/remove duplication] -> [run suite command(s)] -> expected: PASS
-         - Step W (MEASURE): [run eval/perf] -> [run <exact command>] -> expected: thresholds met
-       - Every verification command line must reference at least one TEST-### or eval id.
-    C. Exit Gate Rules (Green/Yellow/Red criteria specific to this phase).
-    D. Phase Metrics (Provide estimated value + 1-sentence rationale):
-       [Confidence %, Long-term robustness %, Internal interactions, External interactions, Complexity %, Feature creep %, Technical debt %, YAGNI score, MoSCoW, Local/Non-local scope, Architectural changes count].
+5. Iterative implementation and test plan
+Include:
+- Phase strategy decomposed by complexity into atomic, verifiable micro-steps
+- Risk register: risk, trigger, mitigation
+- Suspension/resumption criteria
 
-6. Evaluations (AI/Agentic Specific)
-  YAML block listing evals: id, purpose (dev/holdout/adv), metrics, thresholds, seeds, runtime_budget.
+For every phase:
+- `### Phase Pxx: <Title>`
+- Scope and objectives, including impacted `REQ-###`
+- Steps in this format:
+  - Step X RED: create/update `TEST-###` in `<path>` for `REQ-###`; run `<exact command>`; expected FAIL because `<reason>`
+  - Step Y GREEN: implement minimal code change; run the same command; expected PASS
+  - Step Z REFACTOR: remove duplication or improve design; run `<suite command>`; expected PASS
+  - Step W MEASURE: run `EVAL-###` or metric command; expected thresholds met
+- Exit gates:
+  - Green criteria
+  - Yellow criteria
+  - Red criteria
+- Phase metrics with estimated value and one-sentence rationale:
+  - Confidence %
+  - Long-term robustness %
+  - Internal interactions
+  - External interactions
+  - Complexity %
+  - Feature creep %
+  - Technical debt %
+  - YAGNI score
+  - MoSCoW
+  - Local/non-local scope
+  - Architectural changes count
 
-7. Tests (ISO/IEC/IEEE 29119-3)
-  7.1 Test Inventory (Repo-Grounded)
-    - Enumerate actual test frameworks/runners found in the repo.
-    - List exact commands as defined in package.json/scripts (or scripts/ directory).
-    - Provide file globs/locations where each test type lives.
-    - No invented commands. If a command doesn’t exist, add a phase step to create it and then reference it.
-  7.2 Test Suites Overview
-    - Define suites (Unit/Integration/E2E/Perf/Data Drift/Static).
-    - For each suite: purpose, runner, command, runtime budget, and when it runs (pre-commit/CI/nightly).
-  7.3 Test Definitions (MANDATORY, NO PLACEHOLDERS)
-    - For EVERY TEST-### referenced anywhere in the document (including RTM), provide a concrete definition with:
-      - id: TEST-###
-      - name: short unique name
-      - type: unit/integration/e2e/perf/static
-      - verifies: REQ-### list
-      - location: repo-relative path(s) to the test file(s) (existing or “to be created”)
-      - command: exact shell command to run only this test (or the smallest runnable scope)
-      - fixtures/mocks/data: what is required and where it lives
-      - deterministic controls: seeds/timeouts/environment variables
-      - pass_criteria: explicit assertions or thresholds
-      - expected_runtime: in seconds/minutes
-    - Traceability Tag Requirement: Every test file created/modified must include a grep-able tag comment `// TEST-###` (or equivalent for the language/framework) so RTM remains auditable.
-    - Forbidden in this section: “TBD”, “manual verify”, “Playwright check…”, “run tests”, “ensure”.
-  7.4 Manual Checks (Optional)
-    - If manual verification is needed, define as CHECK-### with a clear human procedure.
-    - CHECK-### entries must not appear in RTM.
+6. Evaluations
+Provide a YAML block listing each eval:
+- id
+- purpose: dev / holdout / adversarial
+- metrics
+- thresholds
+- seeds
+- runtime_budget
 
-8. Data Contract
-  Schema snapshot and invariants.
+7. Tests
+7.1 Test inventory
+- Enumerate actual repo test frameworks/runners.
+- List exact existing commands from package.json, Makefile, scripts/, or CI config.
+- List file globs/locations for each test type.
+- If a command is missing, create it in a phase before referencing it.
+
+7.2 Test suites overview
+For each suite:
+- name: Unit / Integration / E2E / Perf / Data Drift / Static
+- purpose
+- runner
+- command
+- runtime budget
+- when it runs: pre-commit / CI / nightly
+
+7.3 Test definitions
+For every `TEST-###` referenced anywhere:
+- id
+- name
+- type: unit / integration / e2e / perf / static
+- verifies: `REQ-###` list
+- location: repo-relative test path, existing or to be created
+- command: exact shell command for this test or smallest runnable scope
+- fixtures/mocks/data
+- deterministic controls: seeds, timeouts, environment variables
+- pass_criteria
+- expected_runtime
+
+7.4 Manual checks, optional
+If needed, define `CHECK-###` with a clear human procedure.
+Do not include `CHECK-###` in the RTM.
+
+8. Data contract
+- Schema snapshot
+- Invariants
+- Privacy/data quality constraints
 
 9. Reproducibility
-  Seeds, hardware, OS/driver/container tag.
+- Seeds
+- Hardware assumptions
+- OS/driver/container tag
+- Relevant environment variables
 
-10. RTM (Requirements Traceability Matrix)
-  Table columns MUST be: Phase | REQ-### | TEST-### | Test Path | Command.
-  Every REQ must map to at least one TEST with a concrete path+command.
+10. Requirements Traceability Matrix
+Table columns must be exactly:
+`Phase | REQ-### | TEST-### | Test Path | Command`
 
-11. Execution Log (Living Document Template)
-  Create a blank template section for the user to fill during execution. Fields:
-  - Phase Status (Pending/Done).
-  - Completed Steps.
-  - Quantitative Results (Metrics mean +/- std, 95% CI).
-  - Issues/Resolutions (What went wrong, how it was solved).
-  - Failed Attempts (What was tried and discarded).
-  - Deviations (Changes from original plan).
-  - Lessons Learned.
-  - ADR Updates (Link to new decisions).
+Rules:
+- Every REQ maps to at least one TEST.
+- Every TEST path and command must match Section 7.3.
 
-12. Appendix: ADR Index
-  List of Architectural Decision Records IDs + one-line decisions.
+11. Execution log template
+Blank living-document template with:
+- Phase Status: Pending/Done
+- Completed Steps
+- Quantitative Results: metrics mean +/- std, 95% CI
+- Issues/Resolutions
+- Failed Attempts
+- Deviations
+- Lessons Learned
+- ADR Updates
 
-13. Consistency Check
-  - Verify RTM covers all REQs.
-  - Verify every Phase has specific Metrics populated.
-  - Verify execution steps include explicit verification commands.
+12. Appendix: ADR index
+List ADR IDs and one-line decisions.
+
+13. Consistency check
+Before finalizing the document, verify:
+- All REQs appear in the RTM.
+- All TEST IDs referenced in phases, evals, or RTM are defined in Section 7.3.
+- Every phase has RED/GREEN/REFACTOR/MEASURE steps.
+- Every phase has populated metrics.
+- Every verification step includes a TEST-### or EVAL-### plus an exact command.
+- No invented commands, placeholders, or context-dependent references remain.
