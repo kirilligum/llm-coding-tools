@@ -74,17 +74,39 @@ Wait, check your reasoning, do you see any flaws or better alternatives?
 
 ## Ask Me
 
-Use [`./ask_me.txt`](ask_me.txt) to get the LLM to ask you questions. It will give you options and suggestions. By default, you just need to review and approve it; otherwise, have a discussion.
+There are two ways I use this depending on how much structure I need.
 
-Here I ask the LLM to structure the output as multiple options with a
-recommendation. When I use this prompt, I care more about review speed than
-highest accuracy; for highest accuracy, ask the LLM to list issues with
-explanations, then dive into them in separate sessions. After this prompt,
-instead of writing explanatory text, you can just say `I agree with your
-recommendations` or reply with `1A, 2A, 3B, 4A, more details
-about 5`.
+### Quick Follow-Up
 
-I sometimes follow up with:
+Use [`./ask_me.txt`](ask_me.txt) when you want the LLM to quickly identify the
+main gaps and ask you targeted questions. It gives multiple options and a
+recommendation, so by default you just need to review and approve it; otherwise,
+have a discussion.
+
+When I use this prompt, I care more about review speed than highest accuracy;
+for highest accuracy, ask the LLM to list issues with explanations, then dive
+into them in separate sessions. After this prompt, instead of writing
+explanatory text, you can just say `I agree with your recommendations` or reply
+with `1A, 2A, 3B, 4A, more details about 5`.
+
+### In-Depth Ask-Me
+
+For more complicated plans, I start with this exact follow-up:
+
+```
+indentify areas where you have low confidance, unsure, or need my input and ask me for my guidance or optionion
+```
+
+This phrase is intentionally simple so the LLM does not get distracted by
+formatting and just focuses on surfacing uncertainty.
+
+Then I follow up with [`./ask_format.txt`](ask_format.txt) so the model properly
+thinks through each question, formats the answer choices, and gives
+recommendations.
+
+### Analyze My Answers
+
+After I answer, I sometimes follow up with:
 
 ```
 Analyze my answers above against the previous task and codebase context.
