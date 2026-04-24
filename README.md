@@ -14,15 +14,31 @@ still can't be done by models or typical wrappers alone.
 
 ### Creating a Plan
 
-1. Have a conversation with an LLM, then use the [`phase-plan-follow-upper.txt`](phase-plan-follow-upper.txt) prompt to create an `.md` plan file in the `plans` folder.
+1. Have a conversation with an LLM, then use the
+   [`phase-plan-follow-upper.txt`](phase-plan-follow-upper.txt) prompt to
+   create an `.md` plan file in the `plans` folder.
 
-2. Besides typical instructions that fix weaknesses of current LLMs and advocate for the best coding and architecture principles, the prompt uses IEEE standard references that have a lot of training data. We also break it into PRD, SRS, and phases sections. To control the quality of each section, we use metrics for high-quality code and common mistakes of LLMs (overengineering, duplication, etc.).
+2. Besides typical instructions that fix weaknesses of current LLMs and
+   advocate for the best coding and architecture principles, the prompt uses
+   IEEE standard references that have a lot of training data. We also break it
+   into PRD, SRS, and phases sections. To control the quality of each section,
+   we use metrics for high-quality code and common mistakes of LLMs
+   (overengineering, duplication, etc.).
 
-3. After you do that, look over the phase titles and metrics to make sure the steps make sense and the metrics look good. If some phases have low metrics, ask the LLM to split the phase, refine the metrics with more precise steps, or ask you questions to increase the chances of success.
+3. After you do that, look over the phase titles and metrics to make sure the
+   steps make sense and the metrics look good. If some phases have low metrics,
+   ask the LLM to split the phase, refine the metrics with more precise steps,
+   or ask you questions to increase the chances of success.
 
 ### Refining the Plan
 
-Starting with GPT-5.2, the [`phase-plan-follow-upper.txt`](phase-plan-follow-upper.txt) prompt does a better job and is often enough on its own. However, LLMs typically don't produce very long outputs, so we run the [`plan-phase-booster.fish`](plan-phase-booster.fish) script to refine each section and phase. This refinement can take around 30-60 minutes on GPT-5.2 xhigh. High is enough though; I use xhigh mostly for the original plan.
+Starting with GPT-5.2, the
+[`phase-plan-follow-upper.txt`](phase-plan-follow-upper.txt) prompt does a
+better job and is often enough on its own. However, LLMs typically don't
+produce very long outputs, so we run the
+[`plan-phase-booster.fish`](plan-phase-booster.fish) script to refine each
+section and phase. This refinement can take around 30-60 minutes on GPT-5.2
+xhigh. High is enough, though; I use xhigh mostly for the original plan.
 
 ### Executing the Plan
 
@@ -36,7 +52,10 @@ hacks. We need reliable solutions. Do not change the purpose of the tests or
 fake passing. We need reliability.
 ```
 
-This starts a multi-hour job. You can replace "the plan" with the `.md` file of the plan. Note: LLM feedback on this prompt is that there is no discussion of what happens when things fail; I didn't find it to be a problem—models typically stop anyway.
+This starts a multi-hour job. You can replace "the plan" with the `.md` file
+of the plan. Note: LLM feedback on this prompt is that there is no discussion
+of what happens when things fail; I didn't find it to be a problem because
+models typically stop anyway.
 
 ### Reviewing the Plan
 
@@ -48,8 +67,9 @@ We don't want to overengineer things; we want one way of
 doing things, meaning no legacy and no fallbacks. Prefer direct approaches
 over adapters and safety for situations that are unlikely to happen.
 We also don't want any logic, style, or code duplication.
-Prefer general code over minor performance gains because we want the codebase to be
-smaller. We want the code to be easy to maintain, robust, and scalable without hacks, patches, and tech debt
+Prefer general code over minor performance gains because we want the codebase
+to be smaller. We want the code to be easy to maintain, robust, and scalable
+without hacks, patches, and tech debt.
 ```
 
 ## Step-Back Prompts
@@ -74,35 +94,41 @@ Wait, check your reasoning, do you see any flaws or better alternatives?
 
 ## Ask Me
 
-There are two ways I use this depending on how much structure I need.
+There are two ways I use this, depending on how much structure I need.
 
 ### Quick Follow-Up
 
 Use [`./ask_me.txt`](ask_me.txt) when you want the LLM to quickly identify the
 main gaps and ask you targeted questions. It gives multiple options and a
-recommendation, so by default you just need to review and approve it; otherwise,
-have a discussion.
+recommendation, so by default you only need to review and approve it;
+otherwise, have a discussion.
 
-When I use this prompt, I care more about review speed than highest accuracy;
-for highest accuracy, ask the LLM to list issues with explanations, then dive
+When I use this prompt, I care more about review speed than maximum accuracy.
+For maximum accuracy, ask the LLM to list issues with explanations, then dive
 into them in separate sessions. After this prompt, instead of writing
-explanatory text, you can just say `I agree with your recommendations` or reply
-with `1A, 2A, 3B, 4A, more details about 5`.
+explanatory text, you can just say `I agree with your recommendations` or
+reply with `1A, 2A, 3B, 4A, more details about 5`.
 
 ### In-Depth Ask-Me
 
 For more complicated plans, I start with this exact follow-up:
 
 ```
-indentify areas where you have low confidance, unsure, or need my input and ask me for my guidance or optionion
+Identify areas where you have low confidence, are unsure, or need my input,
+and ask me for my guidance or opinion.
 ```
 
 This phrase is intentionally simple so the LLM does not get distracted by
 formatting and just focuses on surfacing uncertainty.
 
-Then I follow up with [`./ask_format.txt`](ask_format.txt) so the model properly
-thinks through each question, formats the answer choices, and gives
-recommendations.
+Then I follow up with [`./ask_format.txt`](ask_format.txt) so the model
+creates a file in `./ask_me/`, properly thinks through each question, formats
+the answer choices, and gives recommendations.
+
+You can open that generated file and chat about each item to get more
+clarification until you fully understand the trade-offs and can answer. After
+you give the answers, such as `1B, 2A, 3C`, ask the LLM to update the plan if
+the questions came after the plan was already written.
 
 ### Analyze My Answers
 
@@ -116,9 +142,6 @@ cases, or further ambiguities, you must ask follow-up questions now.
 2. **Success Condition**: If everything is now 100% clear and no further
 information is needed, state exactly: "Context fully synthesized. All gaps
 closed."
-
-**STOP**: Do not write code. Do not propose a blueprint yet. We are strictly
-in the discussion phase.
 ```
 
 ## KER Generation

@@ -1,14 +1,32 @@
-You asked me clarifying questions. For each individual question, I need you to provide details, give options for thoughtful answers, and provide your recommendation.
+Create exactly one Markdown ask-me file in ./ask_me for the clarifying
+questions you asked in the preceding conversation.
+
+Output policy:
+Return only this wrapper and document body. No other text.
+
+=== document: ask_me/<descriptive-name>.md ===
+<Markdown document content>
+
+You asked me clarifying questions. For each individual question, I need you to
+provide details, give options for thoughtful answers, and provide your
+recommendation.
 
 Breaking this down further, for each question, I need you to:
 
-Contextualize: Explain why you are asking the question. Define any new terms, provide examples, reference relevant pieces of code, and establish the context.
+Contextualize: Explain why you are asking the question. Define any new terms,
+provide examples, reference relevant pieces of code, and establish the context.
 
-Present Options: Present 2–4 materially distinct options. Use exactly one option if the decision is obvious or architecturally mandated. Do not include options that are technically possible but architecturally inferior just to fill space.
+Present Options: Present 2-4 materially distinct options. Use exactly one
+option if the decision is obvious or architecturally mandated. Do not include
+options that are technically possible but architecturally inferior just to fill
+space.
 
-Rank by Spectrum: Order the options from long-term benefits (robust, low-maintenance, scalable, minimizing tech debt) to short-term benefits (pragmatic, simple, immediate, low-risk, expedient, gets-things-done).
+Rank by Spectrum: Order the options from long-term benefits (robust,
+low-maintenance, scalable, minimizing tech debt) to short-term benefits
+(pragmatic, simple, immediate, low-risk, expedient, gets-things-done).
 
-Follow Option Guidelines: Ensure the options adhere to the architectural guidelines and precedence hierarchy listed below.
+Follow Option Guidelines: Ensure the options adhere to the architectural
+guidelines and precedence hierarchy listed below.
 
 Recommend: State which option you recommend and justify why.
 
@@ -30,27 +48,50 @@ Performance (only where explicitly relevant and measured).
 Extensibility (only when rigorously justified).
 
 Guidelines for Options
-Evidence Hierarchy: Base all logic and trade-offs strictly on this order of evidence: 1) Verified local source, 2) Existing architecture/tests, 3) Project schemas/config, 4) Official docs, 5) Known engineering principles. Explicitly label any assumptions.
+Evidence Hierarchy: Base all logic and trade-offs strictly on this order of
+evidence: 1) Verified local source, 2) Existing architecture/tests, 3) Project
+schemas/config, 4) Official docs, 5) Known engineering principles. Explicitly
+label any assumptions.
 
-The "One Way" Principle (YAGNI & KISS): Do not over-engineer. Propose exactly one obvious, direct way per option. Avoid redundant fallbacks, clever workarounds, or safety nets for highly unlikely edge cases.
+The "One Way" Principle (YAGNI & KISS): Do not over-engineer. Propose exactly
+one obvious, direct way per option. Avoid redundant fallbacks, clever
+workarounds, or safety nets for highly unlikely edge cases.
 
-DRY Principle: Avoid all logic, style, and code duplication. Utilize reusable components and pure functions.
+DRY Principle: Avoid all logic, style, and code duplication. Utilize reusable
+components and pure functions.
 
-SSoT Principle: Ensure every piece of state or core logic has exactly one centralized source to prevent synchronization bugs.
+SSoT Principle: Ensure every piece of state or core logic has exactly one
+centralized source to prevent synchronization bugs.
 
-Functional Core, Imperative Shell: Strictly isolate side effects. Write core algorithmic logic as pure functions. Push I/O and state mutations to the absolute outer boundaries.
+Functional Core, Imperative Shell: Strictly isolate side effects. Write core
+algorithmic logic as pure functions. Push I/O and state mutations to the
+absolute outer boundaries.
 
-Dependency Inversion (External Boundaries Only): Apply abstraction strictly at external I/O, database, network, vendor, or queue boundaries. Do not wrap stable internal modules or pure functions just to satisfy an abstraction rule.
+Dependency Inversion (External Boundaries Only): Apply abstraction strictly at
+external I/O, database, network, vendor, or queue boundaries. Do not wrap stable
+internal modules or pure functions just to satisfy an abstraction rule.
 
-Design by Contract & Observability: Validate invariants immediately. Crash early and loudly on violations. Use structured logging (JSON/key=value) at external boundaries. Avoid unstructured print statements.
+Design by Contract & Observability: Validate invariants immediately. Crash
+early and loudly on violations. Use structured logging (JSON/key=value) at
+external boundaries. Avoid unstructured print statements.
 
-Explicit State Machines: Use explicit Finite State Machines (FSMs) or algebraic data types strictly for mutually exclusive lifecycle states or ordered workflows. Do not encode a single lifecycle as multiple booleans. (Independent facts like isAdmin or hasVerifiedEmail may remain simple booleans).
+Explicit State Machines: Use explicit Finite State Machines (FSMs) or
+algebraic data types strictly for mutually exclusive lifecycle states or
+ordered workflows. Do not encode a single lifecycle as multiple booleans.
+(Independent facts like isAdmin or hasVerifiedEmail may remain simple
+booleans).
 
-Mechanical Sympathy vs. Conciseness: Default to concise, clear code. Only micro-optimize when the path is measured, obviously asymptotic, or explicitly identified as a performance-critical hot path.
+Mechanical Sympathy vs. Conciseness: Default to concise, clear code. Only
+micro-optimize when the path is measured, obviously asymptotic, or explicitly
+identified as a performance-critical hot path.
 
-Transparent Semantics & Minimal Surface Area: Minimize cognitive load (Spartan local naming, descriptive global naming, strict indentation limits). Expose the absolute minimum API surface, defaulting everything to private/internal.
+Transparent Semantics & Minimal Surface Area: Minimize cognitive load (Spartan
+local naming, descriptive global naming, strict indentation limits). Expose the
+absolute minimum API surface, defaulting everything to private/internal.
 
-Verified API & Contextual Integrity: Fit the existing architecture. Never invent APIs, fields, or config keys. Rely only on verified local source, official docs, or schemas.
+Verified API & Contextual Integrity: Fit the existing architecture. Never
+invent APIs, fields, or config keys. Rely only on verified local source,
+official docs, or schemas.
 
 Auditable Decision Record Format
 (Repeat this sequence for EVERY question you are asking)
@@ -59,24 +100,34 @@ Question [Number]: Define the specific decision needed.
 
 Context & Clarification:
 
-Explain exactly why this question is being asked, how it impacts the project, define new terms, and provide clarifying code snippets.
+Explain exactly why this question is being asked, how it impacts the project,
+define new terms, and provide clarifying code snippets.
 
-The Options: (Provide 2-4 materially distinct options, ordered from Long-Term/Robust to Short-Term/Pragmatic. Repeat the following block for each option: A, B, C, etc.)
+The Options: (Provide 2-4 materially distinct options, ordered from
+Long-Term/Robust to Short-Term/Pragmatic. Repeat the following block for each
+option: A, B, C, etc.)
 
 Option [Letter]: [Option Title]
 
 Approach: Description of the approach.
 
-Architecture: Explicitly explain how this fits the existing codebase, module boundaries, and framework conventions.
+Architecture: Explicitly explain how this fits the existing codebase, module
+boundaries, and framework conventions.
 
-SSoT: Confirm this does not duplicate state/logic and identify the definitive source this option relies on.
+SSoT: Confirm this does not duplicate state/logic and identify the definitive
+source this option relies on.
 
-System Limits: Define the explicit bounds (API rate limits, concurrency limits, time/space complexity). If these limits are not known, you must state "Unknown — not available in local context." Do not guess.
+System Limits: Define the explicit bounds (API rate limits, concurrency
+limits, time/space complexity). If these limits are not known, you must state
+"Unknown - not available in local context." Do not guess.
 
-Confidence: Rate as High, Medium, or Low. You must justify this rating strictly by naming the evidence sources (local files, official docs, schema) and explicitly state any known unknowns.
+Confidence: Rate as High, Medium, or Low. You must justify this rating strictly
+by naming the evidence sources (local files, official docs, schema) and
+explicitly state any known unknowns.
 
 Trade-offs: Briefly explain the logic, pros, and cons.
 
 Recommendation:
 
-State which option you recommend and why, referencing the Precedence Hierarchy if applicable.
+State which option you recommend and why, referencing the Precedence Hierarchy
+if applicable.
