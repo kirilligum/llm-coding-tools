@@ -31,7 +31,7 @@ For each question, include:
 - **Contextualize**: Explain why you are asking the question. Define any
   conversation-specific term using the Terminology rule. Provide examples,
   reference relevant pieces of code, and establish the context.
-- **Present options**: Provide 2 to 4 materially distinct options. Use exactly one
+- **Present options**: Provide 2 to 5 materially distinct options. Use exactly one
   option if the decision is obvious or architecturally mandated. Do not include
   technically possible but architecturally inferior options just to increase the
   number.
@@ -56,9 +56,9 @@ When architectural principles conflict, resolve them in this order:
 ## Option design guidance
 
 - **Evidence hierarchy**: Base decisions on this order of evidence:
-  1) Verified local source, 2) Existing architecture/tests, 3) Project
-  schemas/config, 4) Official docs, 5) Known engineering principles. Label any
-  assumptions.
+  1. Verified local source, 2) Existing architecture/tests, 3) Project
+     schemas/config, 4) Official docs, 5) Known engineering principles. Label any
+     assumptions.
 - **One way principle (YAGNI & KISS)**: Propose one direct option per path.
   Avoid redundant fallbacks and unlikely-edge-case safety nets.
 - **DRY**: Avoid duplication in logic, style, and code.
