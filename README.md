@@ -121,7 +121,7 @@ and ask me for my guidance or opinion.
 This phrase is intentionally simple so the LLM does not get distracted by
 formatting and just focuses on surfacing uncertainty.
 
-Then I follow up with [`./ask_format.txt`](ask_format.txt) so the model
+Then I follow up with [`./ask_format.md`](ask_format.md) so the model
 creates a file in `./ask_me/`, properly thinks through each question, formats
 the answer choices, and gives recommendations.
 
