@@ -12,6 +12,12 @@ Return only this wrapper and document body. No other text.
 <Markdown document content>
 ```
 
+## Terminology rule
+
+Define any conversation-specific term, shorthand, or implied meaning that may be
+unclear from context, and include the foundational function/variable names that
+anchor it in the current codebase.
+
 ## Clarifying-question instructions
 
 You asked me clarifying questions. For each individual question, I need you to:
@@ -22,8 +28,9 @@ You asked me clarifying questions. For each individual question, I need you to:
 
 For each question, include:
 
-- **Contextualize**: Explain why you are asking the question. Define new terms,
-  provide examples, reference relevant pieces of code, and establish the context.
+- **Contextualize**: Explain why you are asking the question. Define any
+  conversation-specific term using the Terminology rule. Provide examples,
+  reference relevant pieces of code, and establish the context.
 - **Present options**: Provide 2 to 4 materially distinct options. Use exactly one
   option if the decision is obvious or architecturally mandated. Do not include
   technically possible but architecturally inferior options just to increase the
@@ -85,7 +92,7 @@ Define the specific decision needed.
 
 - Explain why this question is being asked.
 - Describe project impact.
-- Define new terms.
+- Apply the Terminology rule for any ambiguous term.
 - Add clarifying code snippets when relevant.
 
 ### 3) Options
