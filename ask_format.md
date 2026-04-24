@@ -97,7 +97,7 @@ Define the specific decision needed.
 
 ### 3) Options
 
-Provide 2 to 4 materially distinct options ordered from
+Provide 2 to 5 materially distinct options ordered from
 Long-Term/Robust to Short-Term/Pragmatic.
 
 - `Option [Letter]`: [Option title]
