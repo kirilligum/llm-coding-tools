@@ -1,133 +1,112 @@
-Create exactly one Markdown ask-me file in ./ask_me for the clarifying
+# Ask Format Prompt
+
+## Output contract
+
+Create exactly one Markdown ask-me file in `./ask_me` for the clarifying
 questions you asked in the preceding conversation.
 
-Output policy:
 Return only this wrapper and document body. No other text.
 
+```text
 === document: ask_me/<descriptive-name>.md ===
 <Markdown document content>
+```
 
-You asked me clarifying questions. For each individual question, I need you to
-provide details, give options for thoughtful answers, and provide your
-recommendation.
+## Clarifying-question instructions
 
-Breaking this down further, for each question, I need you to:
+You asked me clarifying questions. For each individual question, I need you to:
 
-Contextualize: Explain why you are asking the question. Define any new terms,
-provide examples, reference relevant pieces of code, and establish the context.
+1. Provide context.
+2. Give options for thoughtful answers.
+3. Provide your recommendation.
 
-Present Options: Present 2-4 materially distinct options. Use exactly one
-option if the decision is obvious or architecturally mandated. Do not include
-options that are technically possible but architecturally inferior just to fill
-space.
+For each question, include:
 
-Rank by Spectrum: Order the options from long-term benefits (robust,
-low-maintenance, scalable, minimizing tech debt) to short-term benefits
-(pragmatic, simple, immediate, low-risk, expedient, gets-things-done).
+- **Contextualize**: Explain why you are asking the question. Define new terms,
+  provide examples, reference relevant pieces of code, and establish the context.
+- **Present options**: Provide 2 to 4 materially distinct options. Use exactly one
+  option if the decision is obvious or architecturally mandated. Do not include
+  technically possible but architecturally inferior options just to increase the
+  number.
+- **Rank by spectrum**: Order options from long-term, robust choices to
+  short-term, pragmatic ones.
+- **Follow guidelines**: Ensure every option follows the architectural guidance and
+  decision precedence listed below.
+- **Recommend**: Recommend one option and justify it.
 
-Follow Option Guidelines: Ensure the options adhere to the architectural
-guidelines and precedence hierarchy listed below.
+## Decision precedence
 
-Recommend: State which option you recommend and justify why.
+When architectural principles conflict, resolve them in this order:
 
-Decision Precedence Hierarchy
-When architectural principles conflict, resolve them strictly in this order:
+1. Correctness and verified local context.
+2. Security and data integrity.
+3. Fit with existing architecture.
+4. Simplicity and YAGNI (You Aren't Gonna Need It).
+5. Observability and fail-fast mechanisms.
+6. Performance (only where explicitly relevant and measured).
+7. Extensibility (only when rigorously justified).
 
-Correctness and verified local context.
+## Option design guidance
 
-Security and data integrity.
+- **Evidence hierarchy**: Base decisions on this order of evidence:
+  1) Verified local source, 2) Existing architecture/tests, 3) Project
+  schemas/config, 4) Official docs, 5) Known engineering principles. Label any
+  assumptions.
+- **One way principle (YAGNI & KISS)**: Propose one direct option per path.
+  Avoid redundant fallbacks and unlikely-edge-case safety nets.
+- **DRY**: Avoid duplication in logic, style, and code.
+- **SSoT**: Keep each piece of state or core logic centralized.
+- **Functional core, imperative shell**: Keep side effects at boundaries; keep
+  core logic pure.
+- **Dependency inversion (external boundaries only)**: Apply abstractions only at
+  stable external boundaries (I/O, database, network, vendor, queue).
+- **Design by contract and observability**: Validate invariants immediately.
+  Crash early and loudly on violations. Use structured logging at external
+  boundaries. Avoid unstructured print statements.
+- **Explicit state machines**: Use explicit FSMs/ADTs for mutually exclusive
+  lifecycle states. Do not model one lifecycle with multiple booleans.
+- **Mechanical sympathy vs conciseness**: Prefer clear code. Optimize only when
+  measured, clearly asymptotic, or explicitly performance-critical.
+- **Transparent semantics and minimal surface area**: Keep naming and APIs
+  minimal and explicit. Expose the smallest necessary surface.
+- **Verified API and contextual integrity**: Fit existing architecture. Do not
+  invent APIs, fields, or config keys. Rely only on verified local source,
+  official docs, or schemas.
 
-Fit with existing architecture.
+## Auditable decision record format
 
-Simplicity and YAGNI (You Aren't Gonna Need It).
+(Repeat this sequence for every question.)
 
-Observability and Fail-Fast mechanisms.
+### 1) Question [Number]
 
-Performance (only where explicitly relevant and measured).
+Define the specific decision needed.
 
-Extensibility (only when rigorously justified).
+### 2) Context & clarification
 
-Guidelines for Options
-Evidence Hierarchy: Base all logic and trade-offs strictly on this order of
-evidence: 1) Verified local source, 2) Existing architecture/tests, 3) Project
-schemas/config, 4) Official docs, 5) Known engineering principles. Explicitly
-label any assumptions.
+- Explain why this question is being asked.
+- Describe project impact.
+- Define new terms.
+- Add clarifying code snippets when relevant.
 
-The "One Way" Principle (YAGNI & KISS): Do not over-engineer. Propose exactly
-one obvious, direct way per option. Avoid redundant fallbacks, clever
-workarounds, or safety nets for highly unlikely edge cases.
+### 3) Options
 
-DRY Principle: Avoid all logic, style, and code duplication. Utilize reusable
-components and pure functions.
+Provide 2 to 4 materially distinct options ordered from
+Long-Term/Robust to Short-Term/Pragmatic.
 
-SSoT Principle: Ensure every piece of state or core logic has exactly one
-centralized source to prevent synchronization bugs.
+- `Option [Letter]`: [Option title]
+  - **Approach**: Description of the approach.
+  - **Architecture**: How this fits the existing codebase, module boundaries, and
+    framework conventions.
+  - **SSoT**: Why this does not duplicate state/logic and where the definitive
+    source lives.
+  - **System limits**: API rate limits, concurrency limits, and time/space
+    complexity. If unknown, state exactly:
+    `"Unknown - not available in local context."` Do not guess.
+  - **Confidence**: High, Medium, or Low. Justify using evidence sources and
+    known unknowns.
+  - **Trade-offs**: Brief summary of logic, pros, and cons.
 
-Functional Core, Imperative Shell: Strictly isolate side effects. Write core
-algorithmic logic as pure functions. Push I/O and state mutations to the
-absolute outer boundaries.
+### 4) Recommendation
 
-Dependency Inversion (External Boundaries Only): Apply abstraction strictly at
-external I/O, database, network, vendor, or queue boundaries. Do not wrap stable
-internal modules or pure functions just to satisfy an abstraction rule.
-
-Design by Contract & Observability: Validate invariants immediately. Crash
-early and loudly on violations. Use structured logging (JSON/key=value) at
-external boundaries. Avoid unstructured print statements.
-
-Explicit State Machines: Use explicit Finite State Machines (FSMs) or
-algebraic data types strictly for mutually exclusive lifecycle states or
-ordered workflows. Do not encode a single lifecycle as multiple booleans.
-(Independent facts like isAdmin or hasVerifiedEmail may remain simple
-booleans).
-
-Mechanical Sympathy vs. Conciseness: Default to concise, clear code. Only
-micro-optimize when the path is measured, obviously asymptotic, or explicitly
-identified as a performance-critical hot path.
-
-Transparent Semantics & Minimal Surface Area: Minimize cognitive load (Spartan
-local naming, descriptive global naming, strict indentation limits). Expose the
-absolute minimum API surface, defaulting everything to private/internal.
-
-Verified API & Contextual Integrity: Fit the existing architecture. Never
-invent APIs, fields, or config keys. Rely only on verified local source,
-official docs, or schemas.
-
-Auditable Decision Record Format
-(Repeat this sequence for EVERY question you are asking)
-
-Question [Number]: Define the specific decision needed.
-
-Context & Clarification:
-
-Explain exactly why this question is being asked, how it impacts the project,
-define new terms, and provide clarifying code snippets.
-
-The Options: (Provide 2-4 materially distinct options, ordered from
-Long-Term/Robust to Short-Term/Pragmatic. Repeat the following block for each
-option: A, B, C, etc.)
-
-Option [Letter]: [Option Title]
-
-Approach: Description of the approach.
-
-Architecture: Explicitly explain how this fits the existing codebase, module
-boundaries, and framework conventions.
-
-SSoT: Confirm this does not duplicate state/logic and identify the definitive
-source this option relies on.
-
-System Limits: Define the explicit bounds (API rate limits, concurrency
-limits, time/space complexity). If these limits are not known, you must state
-"Unknown - not available in local context." Do not guess.
-
-Confidence: Rate as High, Medium, or Low. You must justify this rating strictly
-by naming the evidence sources (local files, official docs, schema) and
-explicitly state any known unknowns.
-
-Trade-offs: Briefly explain the logic, pros, and cons.
-
-Recommendation:
-
-State which option you recommend and why, referencing the Precedence Hierarchy
-if applicable.
+State which option you recommend and why, using the precedence hierarchy when
+relevant.
