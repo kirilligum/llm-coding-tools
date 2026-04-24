@@ -15,14 +15,8 @@ still can't be done by models or typical wrappers alone.
 ### Creating a Plan
 
 1. Have a conversation with an LLM, then use the
-   [`phase-plan-follow-upper.txt`](phase-plan-follow-upper.txt) 📋 prompt to
+   [`phase-plan-follow-upper.txt`](phase-plan-follow-upper.txt) prompt to
    create an `.md` plan file in the `plans` folder.
-
-```bash
-pbcopy < ./phase-plan-follow-upper.txt
-cat ./phase-plan-follow-upper.txt | xclip -selection clipboard
-cat ./phase-plan-follow-upper.txt | clip
-```
 
 2. Besides typical instructions that fix weaknesses of current LLMs and
    advocate for the best coding and architecture principles, the prompt uses
@@ -39,18 +33,12 @@ cat ./phase-plan-follow-upper.txt | clip
 ### Refining the Plan
 
 Starting with GPT-5.2, the
-[`phase-plan-follow-upper.txt`](phase-plan-follow-upper.txt) 📋 prompt does a
+[`phase-plan-follow-upper.txt`](phase-plan-follow-upper.txt) prompt does a
 better job and is often enough on its own. However, LLMs typically don't
 produce very long outputs, so we run the
-[`plan-phase-booster.fish`](plan-phase-booster.fish) 📋 script to refine each
+[`plan-phase-booster.fish`](plan-phase-booster.fish) script to refine each
 section and phase. This refinement can take around 30-60 minutes on GPT-5.2
 xhigh. High is enough, though; I use xhigh mostly for the original plan.
-
-```bash
-pbcopy < ./plan-phase-booster.fish
-cat ./plan-phase-booster.fish | xclip -selection clipboard
-cat ./plan-phase-booster.fish | clip
-```
 
 ### Executing the Plan
 
@@ -110,16 +98,10 @@ There are two ways I use this, depending on how much structure I need.
 
 ### Quick Follow-Up
 
-Use [`./ask_me.txt`](ask_me.txt) 📋 when you want the LLM to quickly identify the
+Use [`./ask_me.txt`](ask_me.txt) when you want the LLM to quickly identify the
 main gaps and ask you targeted questions. It gives multiple options and a
 recommendation, so by default you only need to review and approve it;
 otherwise, have a discussion.
-
-```bash
-pbcopy < ./ask_me.txt
-cat ./ask_me.txt | xclip -selection clipboard
-cat ./ask_me.txt | clip
-```
 
 When I use this prompt, I care more about review speed than maximum accuracy.
 For maximum accuracy, ask the LLM to list issues with explanations, then dive
@@ -139,15 +121,9 @@ and ask me for my guidance or opinion.
 This phrase is intentionally simple so the LLM does not get distracted by
 formatting and just focuses on surfacing uncertainty.
 
-Then I follow up with [`./ask_format.txt`](ask_format.txt) 📋 so the model
+Then I follow up with [`./ask_format.txt`](ask_format.txt) so the model
 creates a file in `./ask_me/`, properly thinks through each question, formats
 the answer choices, and gives recommendations.
-
-```bash
-pbcopy < ./ask_format.txt
-cat ./ask_format.txt | xclip -selection clipboard
-cat ./ask_format.txt | clip
-```
 
 You can open that generated file and chat about each item to get more
 clarification until you fully understand the trade-offs and can answer. After
@@ -172,15 +148,9 @@ closed."
 
 After a long session with an LLM resolving a bug, if you want to keep a note
 of the symptoms and the solution for future reference, use
-[`./ker-generation-prompt.txt`](ker-generation-prompt.txt) 📋 to turn a debugging
+[`./ker-generation-prompt.txt`](ker-generation-prompt.txt) to turn a debugging
 session into a reusable Known Error Record (KER) plus a Problem Record, saved
 under `./ker/` with a grep-friendly filename.
-
-```bash
-pbcopy < ./ker-generation-prompt.txt
-cat ./ker-generation-prompt.txt | xclip -selection clipboard
-cat ./ker-generation-prompt.txt | clip
-```
 
 ## Branching
 
