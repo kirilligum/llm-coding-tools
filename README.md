@@ -121,9 +121,9 @@ and ask me for my guidance or opinion.
 This phrase is intentionally simple so the LLM does not get distracted by
 formatting and just focuses on surfacing uncertainty.
 
-Then I follow up with [`./ask_format.md`](ask_format.md) so the model
-creates a file in `./ask_me/`, properly thinks through each question, formats
-the answer choices, and gives recommendations.
+Then I follow up with [`./ask_format.md`](ask_format.md) so the model returns
+a document wrapper for `./ask_me/...md`, properly thinks through each question,
+formats the answer choices, and gives recommendations.
 
 You can open that generated file and chat about each item to get more
 clarification until you fully understand the trade-offs and can answer. After
