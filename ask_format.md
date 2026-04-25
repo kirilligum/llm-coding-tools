@@ -248,21 +248,3 @@ Long-Term/Robust to Short-Term/Pragmatic.
 
 State which option you recommend and why, using the precedence hierarchy when
 relevant.
-
-## Rubric example
-
-- `Option A`: Introduce an explicit lifecycle state machine
-  - **Rubrics**: `Conf:84%/C9 | Invest:a | Commit:a | Fit:b | Lib:a | Obs:a |
-    Surface:d | Perf:c`
-
-- `Option B`: Centralize lifecycle transitions in the existing service
-  - **Rubrics**: `Conf:82%/C9 | Invest:b | Commit:b | Fit:a | Lib:b | Obs:b |
-    Surface:a | Perf:b`
-
-- `Option C`: Add a targeted invariant guard at the transition point
-  - **Rubrics**: `Conf:61%/C7 | Invest:c | Commit:c | Fit:c | Lib:c | Obs:c |
-    Surface:b | Perf:a`
-
-- `Option D`: Add a temporary validation patch before persistence
-  - **Rubrics**: `Conf:47%/C5 | Invest:d | Commit:d | Fit:d | Lib:d | Obs:d |
-    Surface:c | Perf:d`
