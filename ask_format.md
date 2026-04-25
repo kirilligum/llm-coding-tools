@@ -165,8 +165,7 @@ fit.
 ### Lib - library-readiness
 
 Relative axis for how close the solution is to being extractable as an external
-library. This is observational only. Do not optimize for higher `Lib` unless
-reuse, packaging, or externalization is part of the decision.
+library.
 
 - `a` side: Independently packageable, clean public API, isolated side effects,
   no app-specific dependencies.
@@ -237,7 +236,7 @@ strength.
 
 - `Option [Letter]`: [Option title]
   - **Rubrics**: `Conf:<score>%/<C1-C10> | Invest:<rank> | Commit:<rank> |
-    Fit:<rank> | Lib:<rank> | Obs:<rank> | Surface:<rank> | Perf:<rank|na>`
+Fit:<rank> | Lib:<rank> | Obs:<rank> | Surface:<rank> | Perf:<rank|na>`
   - **Approach**: Description of the approach.
   - **Architecture**: How this fits the existing codebase, module boundaries, and
     framework conventions.
