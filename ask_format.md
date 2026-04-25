@@ -97,7 +97,8 @@ Use this rubric line for every option:
 
 `Conf | Invest | Commit | Fit | Lib | Obs | Surface | Perf`
 
-`Conf` is absolute: provide both a 0-100% score and a 10-level bucket.
+`Conf` is absolute: provide an approximate 0-100% score. Round to the nearest
+10% bucket unless a more specific value is clearly justified.
 
 All other rubrics are relative ranks within the current question. For each
 rubric, use consecutive lowercase letters starting at `a`, where `a` is highest
@@ -108,25 +109,21 @@ The option line must contain only compact values, not prose explanations.
 
 ### Conf - confidence
 
-Absolute evidence confidence. Format: `Conf:<score>%/<bucket>`.
+Absolute evidence confidence. Format: `Conf:<score>%`.
 
-- `C10` = 90-100%: Proven by local source, tests, schemas/config, and no
-  material unknowns.
-- `C9` = 80-89%: Strongly verified by local source with minor untested edge
-  cases.
-- `C8` = 70-79%: Well supported by local architecture, tests, or schemas, but
-  not fully verified.
-- `C7` = 60-69%: Supported by local context and known engineering principles;
-  some integration details remain open.
-- `C6` = 50-59%: Plausible, but meaningful local context or edge cases are
-  unverified.
-- `C5` = 40-49%: Assumption-dependent; explicit assumptions are not locally
-  verified.
-- `C4` = 30-39%: Weak local evidence; architecture or API behavior is
-  uncertain.
-- `C3` = 20-29%: Speculative; significant integration uncertainty remains.
-- `C2` = 10-19%: Barely supported; mostly unknown local behavior.
-- `C1` = 0-9%: Insufficient context to judge safely.
+- 90-100%: Proven by local source, tests, schemas/config, and no material
+  unknowns.
+- 80-89%: Strongly verified by local source with minor untested edge cases.
+- 70-79%: Well supported by local architecture, tests, or schemas, but not
+  fully verified.
+- 60-69%: Supported by local context and known engineering principles; some
+  integration details remain open.
+- 50-59%: Plausible, but meaningful local context or edge cases are unverified.
+- 40-49%: Assumption-dependent; explicit assumptions are not locally verified.
+- 30-39%: Weak local evidence; architecture or API behavior is uncertain.
+- 20-29%: Speculative; significant integration uncertainty remains.
+- 10-19%: Barely supported; mostly unknown local behavior.
+- 0-9%: Insufficient context to judge safely.
 
 ### Invest - engineering investment
 
@@ -235,7 +232,8 @@ Long-Term/Structural to Short-Term/Pragmatic. Do not order by recommendation
 strength.
 
 - `Option [Letter]`: [Option title]
-  - **Rubrics**: `Conf:<score>%/<C1-C10> | Invest:<rank> | Commit:<rank> | Fit:<rank> | Lib:<rank> | Obs:<rank> | Surface:<rank> | Perf:<rank|na>`
+  - **Rubrics**: `Conf:<score>% | Invest:<rank> | Commit:<rank> |
+    Fit:<rank> | Lib:<rank> | Obs:<rank> | Surface:<rank> | Perf:<rank|na>`
   - **Approach**: Description of the approach.
   - **Architecture**: How this fits the existing codebase, module boundaries, and
     framework conventions.
