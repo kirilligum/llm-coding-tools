@@ -31,12 +31,12 @@ For each question, include:
 - **Contextualize**: Explain why you are asking the question. Define any
   conversation-specific term using the Terminology rule. Provide examples,
   reference relevant pieces of code, and establish the context.
-- **Present options**: Provide 2 to 5 materially distinct options. Use exactly one
-  option if the decision is obvious or architecturally mandated. Do not include
-  technically possible but architecturally inferior options just to increase the
-  number.
-- **Rank by spectrum**: Order options from long-term, robust choices to
-  short-term, pragmatic ones.
+- **Present options**: Always provide 2 to 5 materially distinct options. Do
+  not include technically possible but architecturally inferior options just to
+  increase the number.
+- **Rank by structural spectrum**: Order options from long-term, structural
+  choices to short-term, pragmatic choices. Do not order by recommendation
+  strength; the recommendation is a separate judgment.
 - **Follow guidelines**: Ensure every option follows the architectural guidance and
   decision precedence listed below.
 - **Recommend**: Recommend one option and justify it.
@@ -104,7 +104,7 @@ rubric, use consecutive lowercase letters starting at `a`, where `a` is highest
 on that rubric's axis among the presented options. Prefer unique letters; use
 ties only when options are genuinely indistinguishable on that dimension.
 
-The option line must contain only compact values, not explanations.
+The option line must contain only compact values, not prose explanations.
 
 ### Conf - confidence
 
@@ -204,6 +204,9 @@ performance posture. Use as observation unless performance is explicitly
 relevant, measured, asymptotic, hot-path, high-volume, high-concurrency, or
 latency-sensitive.
 
+Use `Perf:na` when performance is not meaningfully relevant or cannot be ranked
+from available local context.
+
 - `a` side: Designed for verified hot-path constraints, measured limits, or
   improved algorithmic complexity.
 - Middle: Uses batching, streaming, indexing, caching, bounded concurrency, or
@@ -228,12 +231,13 @@ Define the specific decision needed.
 
 ### 3) Options
 
-Provide 2 to 5 materially distinct options ordered from
-Long-Term/Robust to Short-Term/Pragmatic.
+Provide 2 to 5 materially distinct options ordered by structural spectrum, from
+Long-Term/Structural to Short-Term/Pragmatic. Do not order by recommendation
+strength.
 
 - `Option [Letter]`: [Option title]
   - **Rubrics**: `Conf:<score>%/<C1-C10> | Invest:<rank> | Commit:<rank> |
-    Fit:<rank> | Lib:<rank> | Obs:<rank> | Surface:<rank> | Perf:<rank>`
+    Fit:<rank> | Lib:<rank> | Obs:<rank> | Surface:<rank> | Perf:<rank|na>`
   - **Approach**: Description of the approach.
   - **Architecture**: How this fits the existing codebase, module boundaries, and
     framework conventions.
