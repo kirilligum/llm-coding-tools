@@ -235,8 +235,7 @@ Long-Term/Structural to Short-Term/Pragmatic. Do not order by recommendation
 strength.
 
 - `Option [Letter]`: [Option title]
-  - **Rubrics**: `Conf:<score>%/<C1-C10> | Invest:<rank> | Commit:<rank> |
-Fit:<rank> | Lib:<rank> | Obs:<rank> | Surface:<rank> | Perf:<rank|na>`
+  - **Rubrics**: `Conf:<score>%/<C1-C10> | Invest:<rank> | Commit:<rank> | Fit:<rank> | Lib:<rank> | Obs:<rank> | Surface:<rank> | Perf:<rank|na>`
   - **Approach**: Description of the approach.
   - **Architecture**: How this fits the existing codebase, module boundaries, and
     framework conventions.
