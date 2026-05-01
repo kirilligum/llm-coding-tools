@@ -213,22 +213,22 @@ from available local context.
 ## Auditable decision record format
 
 (Repeat this sequence for every question. Prefix all four subsection headings
-with the exact question number, such as `1.2`, `5.1`, or `9.4`, so each
-subsection remains identifiable when earlier terminal output is no longer
-visible.)
+with `Q[Number] -`, where `[Number]` is the exact question number, such as
+`1.2`, `5.1`, or `9.4`. This keeps each subsection identifiable when earlier
+terminal output is no longer visible.)
 
-### [Number] 1) Question
+### Q[Number] - 1) Question
 
 Define the specific decision needed.
 
-### [Number] 2) Context & clarification
+### Q[Number] - 2) Context & clarification
 
 - Explain why this question is being asked.
 - Describe project impact.
 - Apply the Terminology rule for any ambiguous term.
 - Add clarifying code snippets when relevant.
 
-### [Number] 3) Options
+### Q[Number] - 3) Options
 
 Provide 2 to 5 materially distinct options ordered by structural spectrum, from
 Long-Term/Structural to Short-Term/Pragmatic. Do not order by recommendation
@@ -247,7 +247,7 @@ strength.
     `"Unknown - not available in local context."` Do not guess.
   - **Trade-offs**: Brief summary of logic, pros, and cons.
 
-### [Number] 4) Recommendation
+### Q[Number] - 4) Recommendation
 
 State which option you recommend and why, using the precedence hierarchy when
 relevant.
