@@ -55,10 +55,14 @@ When architectural principles conflict, resolve them in this order:
 
 ## Option design guidance
 
-- **Evidence hierarchy**: Base decisions on this order of evidence:
-  1. Verified local source, 2) Existing architecture/tests, 3) Project
-     schemas/config, 4) Official docs, 5) Known engineering principles. Label any
-     assumptions.
+- **Evidence hierarchy**: Separate implementation evidence from external
+  contract evidence. For this codebase, base decisions on verified local source,
+  existing architecture/tests, and project schemas/config. When a decision
+  depends on external API behavior, protocol rules, platform limits, billing
+  behavior, security guarantees, or vendor-managed semantics, official docs or
+  standards are the source of truth for that external contract. Verified local
+  source proves only how this codebase currently uses the contract. Label any
+  assumptions.
 - **One way principle (YAGNI & KISS)**: Propose one direct option per path.
   Avoid redundant fallbacks and unlikely-edge-case safety nets.
 - **DRY**: Avoid duplication in logic, style, and code.
@@ -77,14 +81,18 @@ When architectural principles conflict, resolve them in this order:
 - **Transparent semantics and minimal surface area**: Keep naming and APIs
   minimal and explicit. Expose the smallest necessary surface.
 - **Verified API and contextual integrity**: Fit existing architecture. Do not
-  invent APIs, fields, or config keys. Rely only on verified local source,
-  official docs, or schemas.
+  invent APIs, fields, or config keys. Rely on verified local source, official
+  docs, standards, or schemas. For external contracts, use official docs or
+  standards to verify the contract and local source to verify current usage.
 
 ## Option rubrics
 
 Use compact rubrics to make option trade-offs easy to scan. Rubrics are
 observational signals, not a scoring system. Do not choose an option by
-counting `a` ranks. The recommendation still follows Decision precedence.
+counting `i` ranks. Ranks usually show where the option sits on the spectrum
+from production-grade structural robustness to pragmatic/MVP execution, so the
+human can judge effort against value. The recommendation still follows Decision
+precedence.
 
 Rubrics rank each option along an axis. The examples below are calibration
 anchors, not required buckets. Do not force an option into a named bucket if the
@@ -95,15 +103,17 @@ options on that axis.
 
 Use this rubric line for every option:
 
-`Conf | Invest | Commit | Fit | Lib | Obs | Surface | Perf`
+`Conf | Invest | Blast | Reversal | Fit | Lib | Obs | Surface | Perf`
 
 `Conf` is absolute: provide an approximate 0-100% score. Round to the nearest
 10% bucket unless a more specific value is clearly justified.
 
 All other rubrics are relative ranks within the current question. For each
-rubric, use consecutive lowercase letters starting at `a`, where `a` is highest
-on that rubric's axis among the presented options. Prefer unique letters; use
-ties only when options are genuinely indistinguishable on that dimension.
+rubric, use consecutive lowercase roman numerals starting at `i`, where `i` is
+highest on that rubric's axis among the presented options. Prefer unique ranks;
+use ties only when options are genuinely indistinguishable on that dimension.
+A rank is not a grade: for example, `Blast:i` means widest blast radius, not the
+best option.
 
 The option line must contain only compact values, not prose explanations.
 
@@ -129,34 +139,47 @@ Absolute evidence confidence. Format: `Conf:<score>%`.
 
 Relative axis from highest durable investment to lowest pragmatic investment.
 
-- `a` side: Durable architecture, domain model, explicit lifecycle model, FSM,
+- `i` side: Durable architecture, domain model, explicit lifecycle model, FSM,
   ADT, or structural refactor.
 - Middle: Architecture-preserving implementation, centralized service/function,
   targeted invariant, or validation.
-- Later-letter side: Compatibility shim, migration bridge, temporary patch, or
+- Later-rank side: Compatibility shim, migration bridge, temporary patch, or
   narrow call-site fix.
 
-### Commit - structural commitment
+### Blast - blast radius
 
-Relative axis from hardest-to-reverse or broadest commitment to
-easiest-to-reverse or smallest blast radius. This is not a desirability score.
+Relative axis from broadest blast radius to narrowest blast radius. This is not
+a desirability score.
 
-- `a` side: Breaking, irreversible, migration-heavy, schema/API-affecting, or
-  broad-blast-radius change.
-- Middle: Reversible internal rewiring, staged rollout, feature flag, or
-  config-gated change.
-- Later-letter side: Local, reversible, low-risk, minimal-blast-radius change.
+- `i` side: Cross-module, schema/API-affecting, public-contract-affecting,
+  migration-heavy, broad user impact, or broad operational impact.
+- Middle: Several call sites, internal service boundaries, staged rollout,
+  feature flag, or config-gated change.
+- Later-rank side: Local, isolated, narrow call-site, or minimal-blast-radius
+  change.
+
+### Reversal - reversal difficulty
+
+Relative axis from hardest to reverse to easiest to reverse. This is not a
+desirability score.
+
+- `i` side: Irreversible data change, destructive migration, public API/schema
+  commitment, vendor lock-in, or rollback requiring coordinated migration.
+- Middle: Reversible internal rewiring, staged rollout, feature flag,
+  config-gated change, or migration bridge.
+- Later-rank side: Simple local rollback, removable private code, no persistent
+  state change, or no external contract change.
 
 ### Fit - architecture fit
 
 Relative axis from strongest existing-architecture fit to weakest acceptable
 fit.
 
-- `a` side: Uses existing architecture exactly or follows current
+- `i` side: Uses existing architecture exactly or follows current
   framework/module conventions directly.
 - Middle: Small extension of existing architecture, justified boundary
   abstraction, or narrow adapter at an existing seam.
-- Later-letter side: Local composition or workaround that remains acceptable
+- Later-rank side: Local composition or workaround that remains acceptable
   only because it is narrow and justified.
 
 ### Lib - library-readiness
@@ -164,11 +187,11 @@ fit.
 Relative axis for how close the solution is to being extractable as an external
 library.
 
-- `a` side: Independently packageable, clean public API, isolated side effects,
+- `i` side: Independently packageable, clean public API, isolated side effects,
   no app-specific dependencies.
 - Middle: Self-contained module, stable boundary, ports/adapters, or narrow
   dependencies.
-- Later-letter side: Existing service implementation, shared helper, call-site
+- Later-rank side: Existing service implementation, shared helper, call-site
   coordination, or inline app-specific logic.
 
 ### Obs - observability
@@ -176,22 +199,22 @@ library.
 Relative axis from strongest fail-fast/auditable behavior to weakest acceptable
 visibility.
 
-- `a` side: Invariants enforced by contract, type, schema, explicit state
+- `i` side: Invariants enforced by contract, type, schema, explicit state
   transition, or immediate structured failure.
 - Middle: Structured logging, validation, explicit boundary errors, metrics,
   traces, or counters.
-- Later-letter side: Basic logs, limited invariant enforcement, or behavior
+- Later-rank side: Basic logs, limited invariant enforcement, or behavior
   requiring manual inspection.
 
 ### Surface - surface-area discipline
 
 Relative axis from smallest/clearest surface to broadest acceptable surface.
 
-- `a` side: No new API surface, local private function, or smallest explicit
+- `i` side: No new API surface, local private function, or smallest explicit
   callable surface.
 - Middle: One narrow method, field, parameter, type, schema, ADT, adapter, or
   wrapper at an existing seam.
-- Later-letter side: Expanded public/module API or broader maintenance surface.
+- Later-rank side: Expanded public/module API or broader maintenance surface.
 
 ### Perf - performance posture
 
@@ -203,11 +226,11 @@ latency-sensitive.
 Use `Perf:na` when performance is not meaningfully relevant or cannot be ranked
 from available local context.
 
-- `a` side: Designed for verified hot-path constraints, measured limits, or
+- `i` side: Designed for verified hot-path constraints, measured limits, or
   improved algorithmic complexity.
 - Middle: Uses batching, streaming, indexing, caching, bounded concurrency, or
   clear time/space bounds.
-- Later-letter side: Adequate for known small/non-hot-path inputs or least
+- Later-rank side: Adequate for known small/non-hot-path inputs or least
   performance-aware acceptable implementation.
 
 ## Auditable decision record format
@@ -233,8 +256,9 @@ Long-Term/Structural to Short-Term/Pragmatic. Do not order by recommendation
 strength.
 
 - `Option [Letter]`: [Option title]
-  - **Rubrics**: `Conf:<score>% | Invest:<rank> | Commit:<rank> |
-    Fit:<rank> | Lib:<rank> | Obs:<rank> | Surface:<rank> | Perf:<rank|na>`
+  - **Rubrics**: `Conf:<score>% | Invest:<rank> | Blast:<rank> |
+    Reversal:<rank> | Fit:<rank> | Lib:<rank> | Obs:<rank> |
+    Surface:<rank> | Perf:<rank|na>`
   - **Approach**: Description of the approach.
   - **Architecture**: How this fits the existing codebase, module boundaries, and
     framework conventions.
