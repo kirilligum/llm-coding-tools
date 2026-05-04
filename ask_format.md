@@ -260,6 +260,7 @@ strength.
     Reversal:<rank> | Fit:<rank> | Lib:<rank> | Obs:<rank> |
     Surface:<rank> | Perf:<rank|na>`
   - **Approach**: Description of the approach.
+  - **Example**: Short concrete example of the solution for this option.
   - **Architecture**: How this fits the existing codebase, module boundaries, and
     framework conventions.
   - **SSoT**: Where the definitive source of state or logic lives, and why this
