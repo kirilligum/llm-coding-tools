@@ -29,15 +29,15 @@ Machine-readable rules:
 
 TDD and verification contract:
 - Verification-first: metrics, tests, and evals are binding acceptance controls.
-- Every phase must include at least one Red -> Green -> Refactor -> Measure loop.
-- No implementation step may appear before a failing test exists for the impacted REQ(s).
+- Every phase must include ordered Plan-and-Solve subtasks with explicit verification modes.
+- No behavior-changing implementation subtask may appear before failing coverage exists for the impacted REQ(s).
 - RED and GREEN must run the same command for the same TEST-###.
 - Every TEST-### must be concrete: file path, exact command, fixtures/data, deterministic controls, pass criteria, expected runtime.
 - Every created or modified test file must include a grep-able traceability tag comment such as `// TEST-###`, or the language/framework equivalent.
 - No placeholders: forbidden terms include TBD, manual verify, run tests, ensure, check later, or unspecified Playwright/unit/perf checks.
 - Any TEST-### without executable command, repo-relative path, and pass criteria is invalid.
 - Any metric threshold change requires an ADR.
-- Add git restore points/tags before phase transitions.
+- Treat git restore points/tags as phase-boundary checkpoints, not implementation subtasks.
 - Define compute controls: branch_limits, reflection_passes, and early_stop%.
 
 Required document sections:
@@ -82,22 +82,78 @@ For each:
 
 5. Iterative implementation and test plan
 Include:
-- Phase strategy decomposed by complexity into atomic, verifiable micro-steps
+- Phase strategy decomposed by complexity into atomic, verifiable Plan-and-Solve subtasks
 - Risk register: risk, trigger, mitigation
 - Suspension/resumption criteria
 
+Use Plan-and-Solve decomposition for every phase. Use private reasoning to
+decompose the work, but output only the auditable implementation plan: ordered
+subtasks, dependencies, impacted files/surfaces, requirement links, verification
+links, commands, expected results, evidence, risks, and stop conditions.
+
+Standards tailoring note:
+- This plan is standards-informed, not a claim of ISO/IEEE/FAA compliance.
+- Each phase must produce auditable lifecycle evidence: requirement links,
+  design/code surfaces, verification method, validation purpose, configuration
+  checkpoint, risks, assumptions, and unresolved decisions.
+- For FAA/DO-178C-style or other safety-critical work, add development assurance
+  level assumptions, independence expectations, review/analysis evidence,
+  structural coverage expectations, tool qualification assumptions, and
+  certification data outputs before treating the plan as safety-critical.
+
 For every phase:
-- `### Phase Pxx: <Title>`
-- Scope and objectives, including impacted `REQ-###`
-- Steps in this format:
-  - Step X RED: create/update `TEST-###` in `<path>` for `REQ-###`; run `<exact command>`; expected FAIL because `<reason>`
-  - Step Y GREEN: implement minimal code change; run the same command; expected PASS
-  - Step Z REFACTOR: remove duplication or improve design; run `<suite command>`; expected PASS
-  - Step W MEASURE: run `EVAL-###` or metric command; expected thresholds met
+- `### Phase Pxx: <Outcome>`
+- Phase goal: one concrete system outcome, not an activity label.
+- Scope and objectives, including impacted `REQ-###`.
+- Impacted surfaces: exact repo-relative files, modules, APIs, schemas,
+  commands, data flows, external contracts, or operational surfaces.
+- Lifecycle evidence:
+  - Requirements evidence
+  - Design/code surface evidence
+  - Verification method
+  - Validation purpose
+  - Configuration checkpoint
+  - Risks and assumptions
+- Plan-and-Solve subtasks:
+  - Use ordered IDs: `Pxx.S01`, `Pxx.S02`, ...
+  - Each subtask must be atomic enough for one coding agent to complete before
+    moving on.
+  - Each subtask title must start with a concrete action, for example
+    "Add failing coverage for expired token refresh", "Implement bounded retry",
+    "Wire session refresh into login flow", or "Measure retry latency".
+  - Do not use `RED`, `GREEN`, `REFACTOR`, `MEASURE`, `VERIFY`, restore point,
+    or an exit-gate color as the subtask title.
+  - Each subtask must include:
+    - Action: specific implementation, verification, integration, or measurement action.
+    - Why now: dependency or ordering reason.
+    - Files/surfaces: exact repo-relative paths or components.
+    - Requirement link: impacted `REQ-###`.
+    - Verification link: `TEST-###`, `EVAL-###`, or `CHECK-###`.
+    - Verification mode: `RED`, `GREEN`, `REFACTOR`, `MEASURE`, or `VERIFY`.
+    - Command: exact validation command, or `N/A` only for bounded inspection subtasks.
+    - Expected result.
+    - Evidence produced: test file, code diff, metric output, ADR, log, or screenshot.
+    - Stop/escalate condition.
+    - Unlocks: next subtask ID or phase exit.
+  - Solve one subtask at a time. Do not start `Pxx.S(N+1)` until `Pxx.SN`
+    passes its validation or has a documented blocker.
+- Required verification sequence:
+  - Before behavior-changing implementation subtasks, add or update failing
+    coverage with verification mode `RED`.
+  - Matching `RED` and `GREEN` subtasks must run the same command for the same
+    `TEST-###`.
+  - `REFACTOR` is required when the green implementation introduces duplication,
+    unclear structure, inconsistent style, unnecessary surface area, or avoidable
+    debt; otherwise include a `VERIFY` subtask stating `No refactor needed` with
+    one-sentence rationale.
+  - `MEASURE` must run the relevant `EVAL-###` or metric command when the phase
+    affects performance, reliability, quality, model behavior, data quality, or
+    other thresholded outcomes.
 - Exit gates:
-  - Green criteria
-  - Yellow criteria
-  - Red criteria
+  - Proceed: all required tests/evals pass and traceability is complete.
+  - Escalate: missing decision, missing external contract, unstable test, or
+    requirement ambiguity blocks reliable implementation.
+  - Stop: acceptance criteria cannot be met without changing scope.
 - Phase metrics with estimated value and one-sentence rationale:
   - Confidence %
   - Long-term robustness %
@@ -190,7 +246,10 @@ List ADR IDs and one-line decisions.
 Before finalizing the document, verify:
 - All REQs appear in the RTM.
 - All TEST IDs referenced in phases, evals, or RTM are defined in Section 7.3.
-- Every phase has RED/GREEN/REFACTOR/MEASURE steps.
+- Every phase has ordered Plan-and-Solve subtasks with explicit verification modes.
+- Every behavior-changing implementation subtask is preceded by a RED coverage subtask.
 - Every phase has populated metrics.
-- Every verification step includes a TEST-### or EVAL-### plus an exact command.
+- Every subtask includes a TEST-###, EVAL-###, or CHECK-### link plus an exact
+  command, except bounded inspection subtasks may use `N/A` with explicit
+  inspection target and evidence produced.
 - No invented commands, placeholders, or context-dependent references remain.
