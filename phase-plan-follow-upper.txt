@@ -19,7 +19,7 @@ Core requirements:
 - Use plain Markdown headings only where required; avoid decorative formatting.
 
 Machine-readable rules:
-- Phase headers must be exactly: `### Phase Pxx: <Title>`.
+- Phase headers must be exactly: `### Phase Pxx: <Outcome>`.
 - Phase IDs must be `P00`, `P01`, `P02`, …, `P99`.
 - If any table includes phases, the Phase column must be first and use `Pxx`.
 - Requirements use `REQ-###`.
@@ -86,10 +86,11 @@ Include:
 - Risk register: risk, trigger, mitigation
 - Suspension/resumption criteria
 
-Use Plan-and-Solve decomposition for every phase. Use private reasoning to
-decompose the work, but output only the auditable implementation plan: ordered
-subtasks, dependencies, impacted files/surfaces, requirement links, verification
-links, commands, expected results, evidence, risks, and stop conditions.
+Use Plan-and-Solve decomposition for every phase. Decompose the work before
+writing, but do not output chain-of-thought. Output only the auditable
+implementation plan: ordered subtasks, dependencies, impacted files/surfaces,
+requirement links, verification links, commands, expected results, evidence,
+risks, and stop conditions.
 
 Standards tailoring note:
 - This plan is standards-informed, not a claim of ISO/IEEE/FAA compliance.
@@ -128,13 +129,30 @@ For every phase:
     - Why now: dependency or ordering reason.
     - Files/surfaces: exact repo-relative paths or components.
     - Requirement link: impacted `REQ-###`.
-    - Verification link: `TEST-###`, `EVAL-###`, or `CHECK-###`.
+    - Verification link: `TEST-###` or `EVAL-###`; use `CHECK-###` only for
+      non-automatable human checks, never as the only verification for a
+      behavior-changing implementation subtask.
     - Verification mode: `RED`, `GREEN`, `REFACTOR`, `MEASURE`, or `VERIFY`.
-    - Command: exact validation command, or `N/A` only for bounded inspection subtasks.
+    - Command/procedure: exact validation command for `TEST-###` or `EVAL-###`;
+      clear human procedure for `CHECK-###`; `N/A` only for bounded inspection
+      subtasks.
     - Expected result.
     - Evidence produced: test file, code diff, metric output, ADR, log, or screenshot.
     - Stop/escalate condition.
     - Unlocks: next subtask ID or phase exit.
+  - Render every subtask in this exact shape:
+    - `Pxx.S01 <Concrete action title>`
+      - Action:
+      - Why now:
+      - Files/surfaces:
+      - Requirement link:
+      - Verification link:
+      - Verification mode:
+      - Command/procedure:
+      - Expected result:
+      - Evidence produced:
+      - Stop/escalate condition:
+      - Unlocks:
   - Solve one subtask at a time. Do not start `Pxx.S(N+1)` until `Pxx.SN`
     passes its validation or has a documented blocker.
 - Required verification sequence:
@@ -248,8 +266,9 @@ Before finalizing the document, verify:
 - All TEST IDs referenced in phases, evals, or RTM are defined in Section 7.3.
 - Every phase has ordered Plan-and-Solve subtasks with explicit verification modes.
 - Every behavior-changing implementation subtask is preceded by a RED coverage subtask.
+- No behavior-changing implementation subtask uses CHECK-### as its only verification link.
 - Every phase has populated metrics.
 - Every subtask includes a TEST-###, EVAL-###, or CHECK-### link plus an exact
-  command, except bounded inspection subtasks may use `N/A` with explicit
-  inspection target and evidence produced.
+  command/procedure, except bounded inspection subtasks may use `N/A` with
+  explicit inspection target and evidence produced.
 - No invented commands, placeholders, or context-dependent references remain.
