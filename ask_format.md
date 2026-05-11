@@ -103,7 +103,7 @@ options on that axis.
 
 Use this rubric line for every option:
 
-`Conf | Invest | Blast | Reversal | Fit | Lib | Obs | Surface | Perf`
+`Conf | Invest | Blast | Reversal | Fit | Reuse | Obs | Surface | Perf`
 
 `Conf` is absolute: provide an approximate 0-100% score. Round to the nearest
 10% bucket unless a more specific value is clearly justified.
@@ -182,17 +182,17 @@ fit.
 - Later-rank side: Local composition or workaround that remains acceptable
   only because it is narrow and justified.
 
-### Lib - library-readiness
+### Reuse - reusable canonical implementation
 
-Relative axis for how close the solution is to being extractable as an external
-library.
+Relative axis from strongest reusable/canonical implementation to most local
+one-off implementation.
 
-- `i` side: Independently packageable, clean public API, isolated side effects,
-  no app-specific dependencies.
-- Middle: Self-contained module, stable boundary, ports/adapters, or narrow
-  dependencies.
-- Later-rank side: Existing service implementation, shared helper, call-site
-  coordination, or inline app-specific logic.
+- `i` side: Canonical reusable implementation, single source of truth, no
+  duplicate logic, and clean boundaries.
+- Middle: Shared helper, self-contained module, or stable boundary that reduces
+  duplication in the current codebase.
+- Later-rank side: Local one-off implementation, call-site coordination, or
+  narrowly justified duplication.
 
 ### Obs - observability
 
@@ -257,7 +257,7 @@ strength.
 
 - `Option [Letter]`: [Option title]
   - **Rubrics**: `Conf:<score>% | Invest:<rank> | Blast:<rank> |
-    Reversal:<rank> | Fit:<rank> | Lib:<rank> | Obs:<rank> |
+    Reversal:<rank> | Fit:<rank> | Reuse:<rank> | Obs:<rank> |
     Surface:<rank> | Perf:<rank|na>`
   - **Approach**: Description of the approach.
   - **Example**: Short concrete example of the solution for this option.

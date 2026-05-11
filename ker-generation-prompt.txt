@@ -1,4 +1,6 @@
-You are operating inside a repo via Codex CLI. Your task is to turn the debugging session in THIS conversation into a reusable knowledge artifact and save it as a Markdown file in ./ker/.
+You are operating inside a repo via Codex CLI. 
+Your task is to turn the debugging session in THIS conversation into a reusable knowledge artifact.
+And, save it as a Markdown file in ./ker/.
 
 GOAL
 Create a single Markdown document in ./ker/ that contains BOTH:
