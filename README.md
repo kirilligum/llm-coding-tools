@@ -12,32 +12,10 @@ still can't be done by models or typical wrappers alone.
 
 ## Planning
 
-### Creating a Plan
+### Discuss the Problem
 
-1. Have a conversation with an LLM until the problem, constraints, trade-offs,
-   and candidate implementation direction are clear. Do not format the final
-   plan yet.
-
-2. Use the step-back prompt to broaden the architecture/design review before
-   freezing the plan. The creative follow-up is optional and only needed when
-   you want extra emphasis on alternatives.
-
-3. Use the overengineering check prompt. This is a critical step: simplify the
-   proposed plan, remove unnecessary branches/fallbacks/duplication, and settle
-   on one maintainable path before writing the final plan artifact.
-
-4. Only then use the [`phase-plan-follow-upper.txt`](phase-plan-follow-upper.txt)
-   formatter prompt to create an `.md` plan file in the `plans` folder.
-
-The formatter adds the standalone document wrapper, PRD/SRS/phase structure,
-requirements, tests, metrics, and traceability. It should capture the decisions
-from the discussion, step-back review, and overengineering check instead of
-reopening design from scratch.
-
-After the formatted plan is created, look over the phase titles and metrics to
-make sure the steps make sense and the metrics look good. If some phases have
-low metrics, ask the LLM to split the phase, refine the metrics with more
-precise steps, or ask you questions to increase the chances of success.
+Have a conversation with an LLM until the problem, constraints, trade-offs, and
+candidate implementation direction are clear. Do not format the final plan yet.
 
 ### Step-Back Prompts
 
@@ -55,6 +33,64 @@ project from scratch for a multi-billion dollar SaaS, how would you do things
 differently?
 ```
 
+### Quick Checks
+
+```
+Wait, check your reasoning, do you see any flaws or better alternatives?
+```
+
+### Ask Me
+
+There are two ways I use this, depending on how much structure I need.
+
+#### Quick Follow-Up
+
+Use [`./ask_me.txt`](ask_me.txt) when you want the LLM to quickly identify the
+main gaps and ask you targeted questions. It gives multiple options and a
+recommendation, so by default you only need to review and approve it; otherwise,
+have a discussion.
+
+When I use this prompt, I care more about review speed than maximum accuracy.
+For maximum accuracy, ask the LLM to list issues with explanations, then dive
+into them in separate sessions. After this prompt, instead of writing
+explanatory text, you can just say `I agree with your recommendations` or reply
+with `1A, 2A, 3B, 4A, more details about 5`.
+
+#### In-Depth Ask-Me
+
+For more complicated plans, I start with this exact follow-up:
+
+```
+Identify areas where you have low confidence, are unsure, or need my input,
+and ask me for my guidance or opinion.
+```
+
+This phrase is intentionally simple so the LLM does not get distracted by
+formatting and just focuses on surfacing uncertainty.
+
+Then I follow up with [`./ask_format.md`](ask_format.md) so the model returns a
+document wrapper for `./ask_me/...md`, properly thinks through each question,
+formats the answer choices, and gives recommendations.
+
+You can open that generated file and chat about each item to get more
+clarification until you fully understand the trade-offs and can answer. After
+you give the answers, such as `1B, 2A, 3C`, ask the LLM to update the plan if
+the questions came after the plan was already written.
+
+#### Analyze My Answers
+
+After I answer, I sometimes follow up with:
+
+```
+Analyze my answers above against the previous task and codebase context.
+
+1. **Gap Check**: If these answers reveal NEW complexities, missing edge
+cases, or further ambiguities, you must ask follow-up questions now.
+2. **Success Condition**: If everything is now 100% clear and no further
+information is needed, state exactly: "Context fully synthesized. All gaps
+closed."
+```
+
 ### Overengineering Check
 
 Before formatting the plan, I use:
@@ -69,6 +105,21 @@ Prefer general code over minor performance gains because we want the codebase
 to be smaller. We want the code to be easy to maintain, robust, and scalable
 without hacks, patches, and tech debt.
 ```
+
+### Format the Plan
+
+Use the [`phase-plan-follow-upper.txt`](phase-plan-follow-upper.txt) formatter
+prompt to create an `.md` plan file in the `plans` folder.
+
+The formatter adds the standalone document wrapper, PRD/SRS/phase structure,
+requirements, tests, metrics, and traceability. It should capture the decisions
+from the discussion, step-back review, ask-me answers, and overengineering check
+instead of reopening design from scratch.
+
+After the formatted plan is created, look over the phase titles and metrics to
+make sure the steps make sense and the metrics look good. If some phases have
+low metrics, ask the LLM to split the phase, refine the metrics with more
+precise steps, or ask you questions to increase the chances of success.
 
 ### Refining the Plan
 
@@ -96,64 +147,6 @@ This starts a multi-hour job. You can replace "the plan" with the `.md` file
 of the plan. Note: LLM feedback on this prompt is that there is no discussion
 of what happens when things fail; I didn't find it to be a problem because
 models typically stop anyway.
-
-## Quick Checks
-
-```
-Wait, check your reasoning, do you see any flaws or better alternatives?
-```
-
-## Ask Me
-
-There are two ways I use this, depending on how much structure I need.
-
-### Quick Follow-Up
-
-Use [`./ask_me.txt`](ask_me.txt) when you want the LLM to quickly identify the
-main gaps and ask you targeted questions. It gives multiple options and a
-recommendation, so by default you only need to review and approve it;
-otherwise, have a discussion.
-
-When I use this prompt, I care more about review speed than maximum accuracy.
-For maximum accuracy, ask the LLM to list issues with explanations, then dive
-into them in separate sessions. After this prompt, instead of writing
-explanatory text, you can just say `I agree with your recommendations` or
-reply with `1A, 2A, 3B, 4A, more details about 5`.
-
-### In-Depth Ask-Me
-
-For more complicated plans, I start with this exact follow-up:
-
-```
-Identify areas where you have low confidence, are unsure, or need my input,
-and ask me for my guidance or opinion.
-```
-
-This phrase is intentionally simple so the LLM does not get distracted by
-formatting and just focuses on surfacing uncertainty.
-
-Then I follow up with [`./ask_format.md`](ask_format.md) so the model returns
-a document wrapper for `./ask_me/...md`, properly thinks through each question,
-formats the answer choices, and gives recommendations.
-
-You can open that generated file and chat about each item to get more
-clarification until you fully understand the trade-offs and can answer. After
-you give the answers, such as `1B, 2A, 3C`, ask the LLM to update the plan if
-the questions came after the plan was already written.
-
-### Analyze My Answers
-
-After I answer, I sometimes follow up with:
-
-```
-Analyze my answers above against the previous task and codebase context.
-
-1. **Gap Check**: If these answers reveal NEW complexities, missing edge
-cases, or further ambiguities, you must ask follow-up questions now.
-2. **Success Condition**: If everything is now 100% clear and no further
-information is needed, state exactly: "Context fully synthesized. All gaps
-closed."
-```
 
 ## KER Generation
 
