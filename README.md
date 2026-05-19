@@ -15,7 +15,7 @@ still can't be done by models or typical wrappers alone.
 ### Discuss the Problem
 
 Have a conversation with an LLM until the problem, constraints, trade-offs, and
-candidate implementation direction are clear. Do not format the final plan yet.
+candidate implementation direction are clear.
 
 ### Step-Back Prompts
 
