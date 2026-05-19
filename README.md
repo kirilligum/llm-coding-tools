@@ -69,23 +69,6 @@ you want the LLM to pause and re-evaluate its current direction.
 Wait, check your reasoning, do you see any flaws or better alternatives?
 ```
 
-### Tests
-
-Testing is highly important for scalability and self-healing in vibecoding.
-Logs, tracing, diagnostics, and test output should be easy for LLMs to digest
-and turn into action. Add instructions, references, log retrieval commands,
-architecture navigation notes, and other context that helps the LLM diagnose the
-system without guessing.
-
-Test coverage is important. For test coverage planning, I use:
-
-```
-Do we have a proper test coverage and harness? if not, brainstorm which tests
-to create so we have a proper test coverage. run subagents for 1) ISO/IEC/IEEE
-29119, 2) DO-178C (MC/DC), 3) IEEE 1012 (V&V), 4) NIST Pairwise standards to
-analyze which tests to propose.
-```
-
 ### Ask Me
 
 There are two ways I use this, depending on how much structure I need.
@@ -186,12 +169,29 @@ of the plan. Note: LLM feedback on this prompt is that there is no discussion
 of what happens when things fail; I didn't find it to be a problem because
 models typically stop anyway.
 
-## KER Generation
+## Tests
+
+Testing is highly important for scalability and self-healing in vibecoding.
+Logs, tracing, diagnostics, and test output should be easy for LLMs to digest
+and turn into action. Add instructions, references, log retrieval commands,
+architecture navigation notes, and other context that helps the LLM diagnose the
+system without guessing.
+
+Test coverage is important. For test coverage planning, I use:
+
+```
+Do we have a proper test coverage and harness? if not, brainstorm which tests
+to create so we have a proper test coverage. run subagents for 1) ISO/IEC/IEEE
+29119, 2) DO-178C (MC/DC), 3) IEEE 1012 (V&V), 4) NIST Pairwise standards to
+analyze which tests to propose.
+```
+
+## Known Error Report (KER) Generation
 
 After a long session with an LLM resolving a bug, if you want to keep a note
 of the symptoms and the solution for future reference, use
 [`./ker-generation-prompt.txt`](ker-generation-prompt.txt) to turn a debugging
-session into a reusable Known Error Record (KER) plus a Problem Record, saved
+session into a reusable Known Error Report (KER) plus a Problem Record, saved
 under `./ker/` with a grep-friendly filename.
 
 ## Branching
