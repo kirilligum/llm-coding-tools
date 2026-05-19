@@ -33,6 +33,22 @@ project from scratch for a multi-billion dollar SaaS, how would you do things
 differently?
 ```
 
+### Overengineering Check
+
+Run this after the step-back prompts. Run it again after Ask Me if the answers
+change the plan, and run it once more before executing the plan.
+
+```
+Check the plan.
+We don't want to overengineer things; we want one way of
+doing things, meaning no legacy and no fallbacks. Prefer direct approaches
+over adapters and safety for situations that are unlikely to happen.
+We also don't want any logic, style, or code duplication.
+Prefer general code over minor performance gains because we want the codebase
+to be smaller. We want the code to be easy to maintain, robust, and scalable
+without hacks, patches, and tech debt.
+```
+
 ### Quick Checks
 
 This prompt can be used after any planning step, and in general almost any time
@@ -92,21 +108,6 @@ cases, or further ambiguities, you must ask follow-up questions now.
 2. **Success Condition**: If everything is now 100% clear and no further
 information is needed, state exactly: "Context fully synthesized. All gaps
 closed."
-```
-
-### Overengineering Check
-
-Before formatting the plan, I use:
-
-```
-Check the plan.
-We don't want to overengineer things; we want one way of
-doing things, meaning no legacy and no fallbacks. Prefer direct approaches
-over adapters and safety for situations that are unlikely to happen.
-We also don't want any logic, style, or code duplication.
-Prefer general code over minor performance gains because we want the codebase
-to be smaller. We want the code to be easy to maintain, robust, and scalable
-without hacks, patches, and tech debt.
 ```
 
 ### Format the Plan
