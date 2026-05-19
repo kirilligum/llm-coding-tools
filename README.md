@@ -14,31 +14,71 @@ still can't be done by models or typical wrappers alone.
 
 ### Creating a Plan
 
-1. Have a conversation with an LLM, ask it to create a detailed plan, then use
-   the [`phase-plan-follow-upper.txt`](phase-plan-follow-upper.txt) prompt to
-   create an `.md` plan file in the `plans` folder.
+1. Have a conversation with an LLM until the problem, constraints, trade-offs,
+   and candidate implementation direction are clear. Do not format the final
+   plan yet.
 
-2. Besides typical instructions that fix weaknesses of current LLMs and
-   advocate for the best coding and architecture principles, the prompt uses
-   IEEE standard references that have a lot of training data. We also break it
-   into PRD, SRS, and phases sections. To control the quality of each section,
-   we use metrics for high-quality code and common mistakes of LLMs
-   (overengineering, duplication, etc.).
+2. Use the step-back prompt to broaden the architecture/design review before
+   freezing the plan. The creative follow-up is optional and only needed when
+   you want extra emphasis on alternatives.
 
-3. After you do that, look over the phase titles and metrics to make sure the
-   steps make sense and the metrics look good. If some phases have low metrics,
-   ask the LLM to split the phase, refine the metrics with more precise steps,
-   or ask you questions to increase the chances of success.
+3. Use the overengineering check prompt. This is a critical step: simplify the
+   proposed plan, remove unnecessary branches/fallbacks/duplication, and settle
+   on one maintainable path before writing the final plan artifact.
+
+4. Only then use the [`phase-plan-follow-upper.txt`](phase-plan-follow-upper.txt)
+   formatter prompt to create an `.md` plan file in the `plans` folder.
+
+The formatter adds the standalone document wrapper, PRD/SRS/phase structure,
+requirements, tests, metrics, and traceability. It should capture the decisions
+from the discussion, step-back review, and overengineering check instead of
+reopening design from scratch.
+
+After the formatted plan is created, look over the phase titles and metrics to
+make sure the steps make sense and the metrics look good. If some phases have
+low metrics, ask the LLM to split the phase, refine the metrics with more
+precise steps, or ask you questions to increase the chances of success.
+
+### Step-Back Prompts
+
+```
+Step back, think about similar architectural patterns, system designs,
+industry standards. Give an extensive technically detailed response with
+relevant examples.
+```
+
+Optional follow-up when alternatives need more emphasis:
+
+```
+Think creatively, do you see any other alternatives? If you were building the
+project from scratch for a multi-billion dollar SaaS, how would you do things
+differently?
+```
+
+### Overengineering Check
+
+Before formatting the plan, I use:
+
+```
+Check the plan.
+We don't want to overengineer things; we want one way of
+doing things, meaning no legacy and no fallbacks. Prefer direct approaches
+over adapters and safety for situations that are unlikely to happen.
+We also don't want any logic, style, or code duplication.
+Prefer general code over minor performance gains because we want the codebase
+to be smaller. We want the code to be easy to maintain, robust, and scalable
+without hacks, patches, and tech debt.
+```
 
 ### Refining the Plan
 
 Starting with GPT-5.2, the
-[`phase-plan-follow-upper.txt`](phase-plan-follow-upper.txt) prompt does a
-better job and is often enough on its own. However, LLMs typically don't
-produce very long outputs, so we run the
-[`plan-phase-booster.fish`](plan-phase-booster.fish) script to refine each
-section and phase. This refinement can take around 30-60 minutes on GPT-5.2
-xhigh. High is enough, though; I use xhigh mostly for the original plan.
+[`phase-plan-follow-upper.txt`](phase-plan-follow-upper.txt) formatter does a
+better job and is often enough on its own. For complicated plans, run the
+[`plan-phase-booster.fish`](plan-phase-booster.fish) script after formatting to
+refine each section and phase. This refinement can take around 30-60 minutes on
+GPT-5.2 xhigh. High is enough, though; I use xhigh mostly for the original
+plan.
 
 ### Executing the Plan
 
@@ -56,35 +96,6 @@ This starts a multi-hour job. You can replace "the plan" with the `.md` file
 of the plan. Note: LLM feedback on this prompt is that there is no discussion
 of what happens when things fail; I didn't find it to be a problem because
 models typically stop anyway.
-
-### Reviewing the Plan
-
-After execution, I use:
-
-```
-Check the plan.
-We don't want to overengineer things; we want one way of
-doing things, meaning no legacy and no fallbacks. Prefer direct approaches
-over adapters and safety for situations that are unlikely to happen.
-We also don't want any logic, style, or code duplication.
-Prefer general code over minor performance gains because we want the codebase
-to be smaller. We want the code to be easy to maintain, robust, and scalable
-without hacks, patches, and tech debt.
-```
-
-## Step-Back Prompts
-
-```
-Step back, think about similar architectural patterns, system designs,
-industry standards. Give an extensive technically detailed response with
-relevant examples.
-```
-
-```
-Think creatively, do you see any other alternatives? If you were building the
-project from scratch for a multi-billion dollar SaaS, how would you do things
-differently?
-```
 
 ## Quick Checks
 
