@@ -35,8 +35,9 @@ differently?
 
 ### Overengineering Check
 
-Run this after the step-back prompts. Run it again after Ask Me if the answers
-change the plan, and run it once more before executing the plan.
+Run this after the [Step-Back Prompts](#step-back-prompts). Run it again after
+[Ask Me](#ask-me) if the answers change the plan, and run it once more before
+[Executing the Plan](#executing-the-plan).
 
 ```
 Check the plan.
