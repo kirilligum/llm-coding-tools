@@ -35,6 +35,9 @@ differently?
 
 ### Quick Checks
 
+This prompt can be used after any planning step, and in general almost any time
+you want the LLM to pause and re-evaluate its current direction.
+
 ```
 Wait, check your reasoning, do you see any flaws or better alternatives?
 ```
