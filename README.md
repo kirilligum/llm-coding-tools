@@ -33,11 +33,21 @@ project from scratch for a multi-billion dollar SaaS, how would you do things
 differently?
 ```
 
+After this, run the [Overengineering Check](#overengineering-check) to constrain
+the candidate design before moving on.
+
 ### Overengineering Check
 
 Run this after the [Step-Back Prompts](#step-back-prompts). Run it again after
 [Ask Me](#ask-me) if the answers change the plan, and run it once more before
 [Executing the Plan](#executing-the-plan).
+
+This is a critical prompt because LLMs tend to drift, expand, and duplicate
+work very quickly, sometimes exponentially across branches and follow-ups. That
+can push the critical code out of the effective context window. The full context
+window is not equally useful, so the codebase should stay much smaller than the
+nominal context limit. Constraining scope, duplication, and fallback paths is
+the key control when increasing the size of a codebase.
 
 ```
 Check the plan.
@@ -62,6 +72,8 @@ Wait, check your reasoning, do you see any flaws or better alternatives?
 ### Ask Me
 
 There are two ways I use this, depending on how much structure I need.
+If the answers change the plan, rerun the
+[Overengineering Check](#overengineering-check) before formatting or execution.
 
 #### Quick Follow-Up
 
@@ -118,8 +130,9 @@ prompt to create an `.md` plan file in the `plans` folder.
 
 The formatter adds the standalone document wrapper, PRD/SRS/phase structure,
 requirements, tests, metrics, and traceability. It should capture the decisions
-from the discussion, step-back review, ask-me answers, and overengineering check
-instead of reopening design from scratch.
+from the discussion, step-back review, ask-me answers, and
+[Overengineering Check](#overengineering-check) instead of reopening design from
+scratch.
 
 After the formatted plan is created, look over the phase titles and metrics to
 make sure the steps make sense and the metrics look good. If some phases have
@@ -137,6 +150,9 @@ GPT-5.2 xhigh. High is enough, though; I use xhigh mostly for the original
 plan.
 
 ### Executing the Plan
+
+Before execution, rerun the [Overengineering Check](#overengineering-check)
+against the final plan.
 
 After the plan is ready, I use:
 
