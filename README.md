@@ -14,8 +14,8 @@ still can't be done by models or typical wrappers alone.
 
 ### Creating a Plan
 
-1. Have a conversation with an LLM, then use the
-   [`phase-plan-follow-upper.txt`](phase-plan-follow-upper.txt) prompt to
+1. Have a conversation with an LLM, ask it to create a detailed plan, then use
+   the [`phase-plan-follow-upper.txt`](phase-plan-follow-upper.txt) prompt to
    create an `.md` plan file in the `plans` folder.
 
 2. Besides typical instructions that fix weaknesses of current LLMs and
