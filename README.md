@@ -39,7 +39,7 @@ the candidate design before moving on.
 ### Overengineering Check
 
 Run this after the [Step-Back Prompts](#step-back-prompts). Run it again after
-[Ask Me](#ask-me) if the answers change the plan, and run it once more before
+[Ask Me](#ask-me), and run it once more before
 [Executing the Plan](#executing-the-plan).
 
 This is a critical prompt because LLMs tend to drift, expand, and duplicate
@@ -72,8 +72,8 @@ Wait, check your reasoning, do you see any flaws or better alternatives?
 ### Ask Me
 
 There are two ways I use this, depending on how much structure I need.
-If the answers change the plan, rerun the
-[Overengineering Check](#overengineering-check) before formatting or execution.
+Rerun the [Overengineering Check](#overengineering-check) before formatting or
+execution.
 
 #### Quick Follow-Up
 
