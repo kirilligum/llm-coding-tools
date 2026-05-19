@@ -69,6 +69,23 @@ you want the LLM to pause and re-evaluate its current direction.
 Wait, check your reasoning, do you see any flaws or better alternatives?
 ```
 
+### Tests
+
+Testing is highly important for scalability and self-healing in vibecoding.
+Logs, tracing, diagnostics, and test output should be easy for LLMs to digest
+and turn into action. Add instructions, references, log retrieval commands,
+architecture navigation notes, and other context that helps the LLM diagnose the
+system without guessing.
+
+Test coverage is important. For test coverage planning, I use:
+
+```
+Do we have a proper test coverage and harness? if not, brainstorm which tests
+to create so we have a proper test coverage. run subagents for 1) ISO/IEC/IEEE
+29119, 2) DO-178C (MC/DC), 3) IEEE 1012 (V&V), 4) NIST Pairwise standards to
+analyze which tests to propose.
+```
+
 ### Ask Me
 
 There are two ways I use this, depending on how much structure I need.
