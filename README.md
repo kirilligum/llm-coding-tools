@@ -210,3 +210,26 @@ This should be a separate discussion. Inside a folder "./discussions/"
 create an .md file that is self-contained and has all of the
 information to continue this discussion.
 ```
+
+## My Personal Stack
+
+My current production stack for [prls.co](https://prls.co), a synthetic-data
+generation pipeline with human review, 100s of tests, and 1000s of concurrent
+LLM calls, is TypeScript with Firebase, React, GitHub Actions, and Cloudflare
+for hosting.
+
+I pick Firebase mainly because of Firestore and the GCP infrastructure. It
+drastically reduces boilerplate code, which makes the context window smaller.
+With Postgres, I would also need to worry about scaling and vacuuming. For newer
+projects that do not require an intense database, I use Cloudflare only with its
+D1 database.
+
+For tools, I started moving toward Go for local tools. You can ask an AI to find
+publications comparing Go, TypeScript, and Python, but my practical reason is
+that Go is typed, resource-efficient, has a fast iteration loop, and has higher
+quality training data. I used it for my
+[codex-langfuse-tracer](https://github.com/kirilligum/codex-langfuse-tracer)
+project and a few other internal ones.
+
+In the future, I plan to migrate to self-hosting. For that, I will use Go,
+Temporal, ScyllaDB, ClickHouse, and Elixir Phoenix LiveView.
