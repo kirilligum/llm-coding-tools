@@ -45,9 +45,9 @@ it into ordered phases and concrete steps. Do not implement yet.
 
 ### Overengineering Check
 
-Run this after [Create the Plan](#create-the-plan). Run it again after
-[Ask Me](#ask-me), and run it once more before
-[Executing the Plan](#executing-the-plan).
+Run this after [Create the Plan](#create-the-plan). If you use
+[Ask Me](#ask-me), run it again after the answers are incorporated. Run it once
+more before [Executing the Plan](#executing-the-plan).
 
 This is a critical prompt because LLMs tend to drift, expand, and duplicate
 work very quickly, sometimes exponentially across branches and follow-ups. That
@@ -78,9 +78,17 @@ Wait, check your reasoning, do you see any flaws or better alternatives?
 
 ### Ask Me
 
-There are two ways I use this, depending on how much structure I need.
-Rerun the [Overengineering Check](#overengineering-check) before formatting or
-execution.
+Ask Me is a guardrail, not a mandatory step. I skip it when I am confident the
+LLM will not hallucinate the plan and will make the right choices.
+
+Ask Me can happen before [Format the Plan](#format-the-plan) when the overall
+plan structure is the main uncertainty, or after formatting when implementation
+details are the higher-risk questions. Formatting takes a closer look at
+dependencies, interfaces, tests, and other implementation details.
+
+There are two ways I use Ask Me, depending on how much structure I need. After
+Ask Me, rerun the [Overengineering Check](#overengineering-check) before the
+next major step.
 
 #### Quick Follow-Up
 
@@ -137,7 +145,7 @@ prompt to create an `.md` plan file in the `plans` folder.
 
 The formatter adds the standalone document wrapper, PRD/SRS/phase structure,
 requirements, tests, metrics, and traceability. It should capture the decisions
-from the discussion, step-back review, ask-me answers, and
+from the discussion, step-back review, Ask Me answers when available, and
 [Overengineering Check](#overengineering-check) instead of reopening design from
 scratch.
 
@@ -155,6 +163,23 @@ better job and is often enough on its own. For complicated plans, run the
 refine each section and phase. This refinement can take around 30-60 minutes on
 GPT-5.2 xhigh. High is enough, though; I use xhigh mostly for the original
 plan.
+
+### Tests
+
+Testing is highly important for scalability and self-healing in vibecoding.
+Logs, tracing, diagnostics, and test output should be easy for LLMs to digest
+and turn into action. Add instructions, references, log retrieval commands,
+architecture navigation notes, and other context that helps the LLM diagnose the
+system without guessing.
+
+Test coverage is important. For test coverage planning, I use:
+
+```
+Do we have a proper test coverage and harness? if not, brainstorm which tests
+to create so we have a proper test coverage. run subagents for 1) ISO/IEC/IEEE
+29119, 2) DO-178C (MC/DC), 3) IEEE 1012 (V&V), 4) NIST Pairwise standards to
+analyze which tests to propose.
+```
 
 ### Executing the Plan
 
@@ -175,23 +200,6 @@ This starts a multi-hour job. You can replace "the plan" with the `.md` file
 of the plan. Note: LLM feedback on this prompt is that there is no discussion
 of what happens when things fail; I didn't find it to be a problem because
 models typically stop anyway.
-
-## Tests
-
-Testing is highly important for scalability and self-healing in vibecoding.
-Logs, tracing, diagnostics, and test output should be easy for LLMs to digest
-and turn into action. Add instructions, references, log retrieval commands,
-architecture navigation notes, and other context that helps the LLM diagnose the
-system without guessing.
-
-Test coverage is important. For test coverage planning, I use:
-
-```
-Do we have a proper test coverage and harness? if not, brainstorm which tests
-to create so we have a proper test coverage. run subagents for 1) ISO/IEC/IEEE
-29119, 2) DO-178C (MC/DC), 3) IEEE 1012 (V&V), 4) NIST Pairwise standards to
-analyze which tests to propose.
-```
 
 ## Known Error Report (KER) Generation
 
