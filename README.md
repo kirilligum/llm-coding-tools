@@ -33,12 +33,19 @@ project from scratch for a multi-billion dollar SaaS, how would you do things
 differently?
 ```
 
-After this, run the [Overengineering Check](#overengineering-check) to constrain
-the candidate design before moving on.
+After this, create the plan before running the
+[Overengineering Check](#overengineering-check).
+
+### Create the Plan
+
+```
+Based on the chosen direction above, write a detailed implementation plan. Break
+it into ordered phases and concrete steps. Do not implement yet.
+```
 
 ### Overengineering Check
 
-Run this after the [Step-Back Prompts](#step-back-prompts). Run it again after
+Run this after [Create the Plan](#create-the-plan). Run it again after
 [Ask Me](#ask-me), and run it once more before
 [Executing the Plan](#executing-the-plan).
 
