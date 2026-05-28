@@ -146,7 +146,7 @@ make sure the steps make sense and the metrics look good. If some phases have
 low metrics, ask the LLM to split the phase, refine the metrics with more
 precise steps, or ask you questions to increase the chances of success.
 
-### Refining the Plan
+### Refining the Plan (Optional)
 
 Starting with GPT-5.2, the
 [`phase-plan-follow-upper.txt`](phase-plan-follow-upper.txt) formatter does a
