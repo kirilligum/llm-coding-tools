@@ -143,6 +143,290 @@ closed."
 Use the [`phase-plan-follow-upper.txt`](phase-plan-follow-upper.txt) formatter
 prompt to create an `.md` plan file in the `plans` folder.
 
+<details>
+<summary>Copy <code>phase-plan-follow-upper.txt</code></summary>
+
+<!-- BEGIN phase-plan-follow-upper.txt copy -->
+```text
+Create exactly one Markdown plan file in ./plans for the work described by the preceding conversation.
+
+Role:
+You are a principal research-engineering PM with deep knowledge of ISO/IEC/IEEE 29148 requirements/SRS, ISO/IEC/IEEE 29119-3 test documentation, and ISO/IEC/IEEE 12207 software implementation/life-cycle processes.
+
+Output policy:
+Return only this wrapper and document body. No other text.
+
+=== document: plans/<descriptive-name>.md ===
+<Markdown document content>
+
+Core requirements:
+- The plan must be standalone. Future readers have the repository, but not the conversation.
+- Do not write “as discussed,” “per our chat,” or similar references.
+- Include all decisions, context, constraints, trade-offs, assumptions, and scope directly in the plan.
+- Ground all technical claims, file paths, commands, tests, APIs, and architecture references in the current repository.
+- Do not invent commands. Use existing package.json scripts, Makefile targets, scripts/, CI config, or add a phase step to create missing commands before using them.
+- Use concise, implementation-ready bullets.
+- Use plain Markdown headings only where required; avoid decorative formatting.
+
+Machine-readable rules:
+- Phase headers must be exactly: `### Phase Pxx: <Outcome>`.
+- Phase IDs must be `P00`, `P01`, `P02`, …, `P99`.
+- If any table includes phases, the Phase column must be first and use `Pxx`.
+- Requirements use `REQ-###`.
+- Tests use `TEST-###`.
+- Evaluations use `EVAL-###`.
+- Manual checks, if any, use `CHECK-###` and must not appear in the RTM.
+
+TDD and verification contract:
+- Verification-first: metrics, tests, and evals are binding acceptance controls.
+- Every phase must include ordered Plan-and-Solve subtasks with explicit verification modes.
+- No behavior-changing implementation subtask may appear before failing coverage exists for the impacted REQ(s).
+- RED and GREEN must run the same command for the same TEST-###.
+- Every TEST-### must be concrete: file path, exact command, fixtures/data, deterministic controls, pass criteria, expected runtime.
+- Every created or modified test file must include a grep-able traceability tag comment such as `// TEST-###`, or the language/framework equivalent.
+- No placeholders: forbidden terms include TBD, manual verify, run tests, ensure, check later, or unspecified Playwright/unit/perf checks.
+- Any TEST-### without executable command, repo-relative path, and pass criteria is invalid.
+- Any metric threshold change requires an ADR.
+- Treat git restore points/tags as phase-boundary checkpoints, not implementation subtasks.
+- Define compute controls: branch_limits, reflection_passes, and early_stop%.
+
+Required document sections:
+
+1. Title and metadata
+- Project name
+- Version
+- Owners
+- Date
+- Document ID
+- One-paragraph summary of purpose and scope
+
+2. Design consensus and trade-offs
+Extract technical debates and decisions from the conversation.
+For each:
+- Topic
+- Verdict: FOR / AGAINST / DECISION
+- Rationale grounded in repository/context constraints
+
+3. PRD / stakeholder and system needs
+- Problem
+- Users
+- Value
+- Business goals
+- Success metrics
+- Scope
+- Non-goals
+- Dependencies
+- Risks
+- Assumptions
+
+4. SRS / canonical requirements
+- Functional requirements: `REQ-###`, type `func`
+- Non-functional requirements: type `nfr`, `perf`, `security`, or `reliability`
+- Interface/API requirements: type `int`
+- Data requirements: type `data`
+- Error handling and telemetry expectations
+- Acceptance criteria at requirement level only; do not map to TEST IDs here
+- Architecture diagram:
+  - Mermaid diagram first
+  - C4-style ASCII representation second
+
+5. Iterative implementation and test plan
+Include:
+- Phase strategy decomposed by complexity into atomic, verifiable Plan-and-Solve subtasks
+- Risk register: risk, trigger, mitigation
+- Suspension/resumption criteria
+
+Use Plan-and-Solve decomposition for every phase. Decompose the work before
+writing, but do not output chain-of-thought. Output only the auditable
+implementation plan: ordered subtasks, dependencies, impacted files/surfaces,
+requirement links, verification links, commands, expected results, evidence,
+risks, and stop conditions.
+
+Standards tailoring note:
+- This plan is standards-informed, not a claim of ISO/IEEE/FAA compliance.
+- Each phase must produce auditable lifecycle evidence: requirement links,
+  design/code surfaces, verification method, validation purpose, configuration
+  checkpoint, risks, assumptions, and unresolved decisions.
+- For FAA/DO-178C-style or other safety-critical work, add development assurance
+  level assumptions, independence expectations, review/analysis evidence,
+  structural coverage expectations, tool qualification assumptions, and
+  certification data outputs before treating the plan as safety-critical.
+
+For every phase:
+- `### Phase Pxx: <Outcome>`
+- Phase goal: one concrete system outcome, not an activity label.
+- Scope and objectives, including impacted `REQ-###`.
+- Impacted surfaces: exact repo-relative files, modules, APIs, schemas,
+  commands, data flows, external contracts, or operational surfaces.
+- Lifecycle evidence:
+  - Requirements evidence
+  - Design/code surface evidence
+  - Verification method
+  - Validation purpose
+  - Configuration checkpoint
+  - Risks and assumptions
+- Plan-and-Solve subtasks:
+  - Use ordered IDs: `Pxx.S01`, `Pxx.S02`, ...
+  - Each subtask must be atomic enough for one coding agent to complete before
+    moving on.
+  - Each subtask title must start with a concrete action, for example
+    "Add failing coverage for expired token refresh", "Implement bounded retry",
+    "Wire session refresh into login flow", or "Measure retry latency".
+  - Do not use `RED`, `GREEN`, `REFACTOR`, `MEASURE`, `VERIFY`, restore point,
+    or an exit-gate color as the subtask title.
+  - Each subtask must include:
+    - Action: specific implementation, verification, integration, or measurement action.
+    - Why now: dependency or ordering reason.
+    - Files/surfaces: exact repo-relative paths or components.
+    - Requirement link: impacted `REQ-###`.
+    - Verification link: `TEST-###` or `EVAL-###`; use `CHECK-###` only for
+      non-automatable human checks, never as the only verification for a
+      behavior-changing implementation subtask.
+    - Verification mode: `RED`, `GREEN`, `REFACTOR`, `MEASURE`, or `VERIFY`.
+    - Command/procedure: exact validation command for `TEST-###` or `EVAL-###`;
+      clear human procedure for `CHECK-###`; `N/A` only for bounded inspection
+      subtasks.
+    - Expected result.
+    - Evidence produced: test file, code diff, metric output, ADR, log, or screenshot.
+    - Stop/escalate condition.
+    - Unlocks: next subtask ID or phase exit.
+  - Render every subtask in this exact shape:
+    - `Pxx.S01 <Concrete action title>`
+      - Action:
+      - Why now:
+      - Files/surfaces:
+      - Requirement link:
+      - Verification link:
+      - Verification mode:
+      - Command/procedure:
+      - Expected result:
+      - Evidence produced:
+      - Stop/escalate condition:
+      - Unlocks:
+  - Solve one subtask at a time. Do not start `Pxx.S(N+1)` until `Pxx.SN`
+    passes its validation or has a documented blocker.
+- Required verification sequence:
+  - Before behavior-changing implementation subtasks, add or update failing
+    coverage with verification mode `RED`.
+  - Matching `RED` and `GREEN` subtasks must run the same command for the same
+    `TEST-###`.
+  - `REFACTOR` is required when the green implementation introduces duplication,
+    unclear structure, inconsistent style, unnecessary surface area, or avoidable
+    debt; otherwise include a `VERIFY` subtask stating `No refactor needed` with
+    one-sentence rationale.
+  - `MEASURE` must run the relevant `EVAL-###` or metric command when the phase
+    affects performance, reliability, quality, model behavior, data quality, or
+    other thresholded outcomes.
+- Exit gates:
+  - Proceed: all required tests/evals pass and traceability is complete.
+  - Escalate: missing decision, missing external contract, unstable test, or
+    requirement ambiguity blocks reliable implementation.
+  - Stop: acceptance criteria cannot be met without changing scope.
+- Phase metrics with estimated value and one-sentence rationale:
+  - Confidence %
+  - Long-term robustness %
+  - Internal interactions
+  - External interactions
+  - Complexity %
+  - Feature creep %
+  - Technical debt %
+  - YAGNI score
+  - MoSCoW
+  - Local/non-local scope
+  - Architectural changes count
+
+6. Evaluations
+Provide a YAML block listing each eval:
+- id
+- purpose: dev / holdout / adversarial
+- metrics
+- thresholds
+- seeds
+- runtime_budget
+
+7. Tests
+7.1 Test inventory
+- Enumerate actual repo test frameworks/runners.
+- List exact existing commands from package.json, Makefile, scripts/, or CI config.
+- List file globs/locations for each test type.
+- If a command is missing, create it in a phase before referencing it.
+
+7.2 Test suites overview
+For each suite:
+- name: Unit / Integration / E2E / Perf / Data Drift / Static
+- purpose
+- runner
+- command
+- runtime budget
+- when it runs: pre-commit / CI / nightly
+
+7.3 Test definitions
+For every `TEST-###` referenced anywhere:
+- id
+- name
+- type: unit / integration / e2e / perf / static
+- verifies: `REQ-###` list
+- location: repo-relative test path, existing or to be created
+- command: exact shell command for this test or smallest runnable scope
+- fixtures/mocks/data
+- deterministic controls: seeds, timeouts, environment variables
+- pass_criteria
+- expected_runtime
+
+7.4 Manual checks, optional
+If needed, define `CHECK-###` with a clear human procedure.
+Do not include `CHECK-###` in the RTM.
+
+8. Data contract
+- Schema snapshot
+- Invariants
+- Privacy/data quality constraints
+
+9. Reproducibility
+- Seeds
+- Hardware assumptions
+- OS/driver/container tag
+- Relevant environment variables
+
+10. Requirements Traceability Matrix
+Table columns must be exactly:
+`Phase | REQ-### | TEST-### | Test Path | Command`
+
+Rules:
+- Every REQ maps to at least one TEST.
+- Every TEST path and command must match Section 7.3.
+
+11. Execution log template
+Blank living-document template with:
+- Phase Status: Pending/Done
+- Completed Steps
+- Quantitative Results: metrics mean +/- std, 95% CI
+- Issues/Resolutions
+- Failed Attempts
+- Deviations
+- Lessons Learned
+- ADR Updates
+
+12. Appendix: ADR index
+List ADR IDs and one-line decisions.
+
+13. Consistency check
+Before finalizing the document, verify:
+- All REQs appear in the RTM.
+- All TEST IDs referenced in phases, evals, or RTM are defined in Section 7.3.
+- Every phase has ordered Plan-and-Solve subtasks with explicit verification modes.
+- Every behavior-changing implementation subtask is preceded by a RED coverage subtask.
+- No behavior-changing implementation subtask uses CHECK-### as its only verification link.
+- Every phase has populated metrics.
+- Every subtask includes a TEST-###, EVAL-###, or CHECK-### link plus an exact
+  command/procedure, except bounded inspection subtasks may use `N/A` with
+  explicit inspection target and evidence produced.
+- No invented commands, placeholders, or context-dependent references remain.
+```
+<!-- END phase-plan-follow-upper.txt copy -->
+
+</details>
+
 The formatter adds the standalone document wrapper, PRD/SRS/phase structure,
 requirements, tests, metrics, and traceability. It should capture the decisions
 from the discussion, step-back review, Ask Me answers when available, and
