@@ -201,6 +201,17 @@ of the plan. Note: LLM feedback on this prompt is that there is no discussion
 of what happens when things fail; I didn't find it to be a problem because
 models typically stop anyway.
 
+### Follow Up
+
+After execution finishes, ask for a concrete closeout:
+
+```
+Are you done? Did you update docs and tests? Did you clean up? What are the next steps?
+```
+
+The answer should separate completed work, verification, documentation/test
+updates, cleanup, and remaining follow-ups.
+
 ## Known Error Report (KER) Generation
 
 After a long session with an LLM resolving a bug, if you want to keep a note
