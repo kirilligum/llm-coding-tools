@@ -525,3 +525,21 @@ project and a few other internal ones.
 
 In the future, I plan to migrate to self-hosting. For that, I will use Go,
 Temporal, ScyllaDB, ClickHouse, and Elixir Phoenix LiveView.
+
+## Copying Prompts Faster
+
+The collapsed prompt copy blocks in this README are generated from the source
+prompt files. When a source prompt changes, refresh the README copy with:
+
+```bash
+python3 sync-readme-copies.py
+```
+
+To skip the GitHub UI and put the plan formatter prompt directly on your
+clipboard:
+
+```bash
+git clone https://github.com/kirilligum/llm-coding-tools.git
+cd llm-coding-tools
+cat phase-plan-follow-upper.txt | pbcopy
+```
