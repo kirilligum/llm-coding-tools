@@ -206,7 +206,10 @@ models typically stop anyway.
 After execution finishes, ask for a concrete closeout:
 
 ```
-Are you done? Did you update docs and tests? Did you clean up? What are the next steps?
+Are you completely done? If you diverged from the plan, detail exactly where
+and why. List the specific files where you updated documentation and tests.
+Confirm what temporary files or artifacts you cleaned up, and outline the
+immediate next steps.
 ```
 
 The answer should separate completed work, verification, documentation/test
