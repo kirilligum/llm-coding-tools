@@ -264,22 +264,28 @@ layout:
 
 ### Reason — Fn + G
 
-> Wait, check your reasoning, do you see any flaws or better alternatives?
+```
+Wait, check your reasoning, do you see any flaws or better alternatives?
+```
 
 ### Abstract — Fn + B
 
-> Take a step back. Formulate a broader, more abstract version of my question
-> that captures the core mechanics of the problem without any of my specific
-> details. Answer that abstract question first, then use that foundational
-> knowledge to solve my specific request
+```
+Take a step back. Formulate a broader, more abstract version of my question
+that captures the core mechanics of the problem without any of my specific
+details. Answer that abstract question first, then use that foundational
+knowledge to solve my specific request
+```
 
 ### Plan — Fn + V
 
-> Identify the specific missing variables, unstated assumptions, or system
-> constraints required to execute this flawlessly. Ask for my input on them
-> using high-SNR context. Generate 2 to 5 materially distinct execution paths
-> (A, B, C, D, E), ranking them strictly from highest long-term structural value
-> to highest short-term immediate utility. For each path, explicitly define the
-> primary trade-off being made. Finally, declare your definitive recommendation,
-> and state the exact condition or new piece of information that would force you
-> to change this recommendation
+```
+Identify the specific missing variables, unstated assumptions, or system
+constraints required to execute this flawlessly. Ask for my input on them
+using high-SNR context. Generate 2 to 5 materially distinct execution paths
+(A, B, C, D, E), ranking them strictly from highest long-term structural value
+to highest short-term immediate utility. For each path, explicitly define the
+primary trade-off being made. Finally, declare your definitive recommendation,
+and state the exact condition or new piece of information that would force you
+to change this recommendation
+```
