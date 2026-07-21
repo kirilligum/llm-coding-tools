@@ -255,3 +255,31 @@ project and a few other internal ones.
 
 In the future, I plan to migrate to self-hosting. For that, I will use Go,
 Temporal, ScyllaDB, ClickHouse, and Elixir Phoenix LiveView.
+
+## Keyboard Prompt Presets (ZMK/QMK)
+
+These prompts can be configured as text macros in ZMK or QMK, making them
+available as keyboard shortcuts in any LLM interface. Here is one Fn-layer
+layout:
+
+### Reason — Fn + G
+
+> Wait, check your reasoning, do you see any flaws or better alternatives?
+
+### Abstract — Fn + B
+
+> Take a step back. Formulate a broader, more abstract version of my question
+> that captures the core mechanics of the problem without any of my specific
+> details. Answer that abstract question first, then use that foundational
+> knowledge to solve my specific request
+
+### Plan — Fn + V
+
+> Identify the specific missing variables, unstated assumptions, or system
+> constraints required to execute this flawlessly. Ask for my input on them
+> using high-SNR context. Generate 2 to 5 materially distinct execution paths
+> (A, B, C, D, E), ranking them strictly from highest long-term structural value
+> to highest short-term immediate utility. For each path, explicitly define the
+> primary trade-off being made. Finally, declare your definitive recommendation,
+> and state the exact condition or new piece of information that would force you
+> to change this recommendation
