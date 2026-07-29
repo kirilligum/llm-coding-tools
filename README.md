@@ -203,17 +203,24 @@ models typically stop anyway.
 
 ### Follow Up
 
-After execution finishes, ask for a concrete closeout:
+After execution finishes, use this prompt to complete the closeout:
 
 ```
-Are you completely done? If you diverged from the plan, detail exactly where
-and why. List the specific files where you updated documentation and tests.
-Confirm what temporary files or artifacts you cleaned up, and outline the
-immediate next steps.
+If you diverged from the plan, detail exactly where and why. Update all relevant
+documentation, plans, ADRs, KERs, tests, and related issues. Clean up temporary
+files and artifacts. Commit and push the changes, merge them, and deploy them
+where applicable. Verify the final merged and deployed result, then state
+plainly whether the task is done and what, if anything, comes next.
+```
+
+For a shorter follow-up:
+
+```
+are you done? what's next?
 ```
 
 The answer should separate completed work, verification, documentation/test
-updates, cleanup, and remaining follow-ups.
+and issue updates, delivery status, cleanup, and remaining follow-ups.
 
 ## Known Error Report (KER) Generation
 
