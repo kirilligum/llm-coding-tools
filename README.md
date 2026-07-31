@@ -210,7 +210,9 @@ If you diverged from the plan, detail exactly where and why. Update all relevant
 documentation, plans, ADRs, KERs, tests, and related issues. Clean up temporary
 files and artifacts. Commit and push the changes, merge them, and deploy them
 where applicable. Verify the final merged and deployed result, then state
-plainly whether the task is done and what, if anything, comes next.
+plainly whether the task is done and what work, if any, remains within this
+plan. Even if no plan-related work remains, recommend the next concrete steps
+beyond it. What's next?
 ```
 
 For a shorter follow-up:
